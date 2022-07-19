@@ -21,12 +21,12 @@ public abstract class EasyPluginBase extends JavaPlugin {
         onClose();
     }
     public abstract void onOpen();
-
+    public abstract void registerListener();
     public abstract void onClose();
     public abstract void onExecutor(@NotNull CommandSender sender,  String commandName, @NotNull String[] argument);
 
     @Nullable
-    public abstract List<String> onArgumentCompleter(@NotNull CommandSender sender, String commandName, @NotNull String[] argument);
+    public abstract List<String> onArgumentCompleter(@NotNull CommandSender sender, String latest,String pre);
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -39,16 +39,14 @@ public abstract class EasyPluginBase extends JavaPlugin {
         return true;
     }
     @Nullable
-    public abstract List<String> onCommandCompleter(@NotNull CommandSender sender);
+    public abstract List<String> onCommandCompleter(@NotNull CommandSender sender,String latest);
 
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (args.length==0){
-            return onCommandCompleter(sender);
+        if (args.length==1){
+            return onCommandCompleter(sender,args[0]);
         }
-        String[] argument=new String[args.length-1];
-        System.arraycopy(args, 1, argument, 0, args.length - 1);
-        return onArgumentCompleter(sender,args[0],argument);
+        return onArgumentCompleter(sender,args[args.length-1],args[args.length-2]);
     }
 }
