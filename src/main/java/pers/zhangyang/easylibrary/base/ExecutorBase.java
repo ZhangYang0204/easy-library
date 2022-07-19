@@ -52,12 +52,18 @@ public abstract class ExecutorBase {
         MessageUtil.sendMessageTo(sender, list);
     }
     @Nullable
-    public abstract List<String> getNotPlayerMessage();
+    public  List<String> getNotPlayerMessage(){
+        return null;
+    }
 
     @Nullable
-    public abstract List<String> getNotPermissionMessage();
+    public  List<String> getNotPermissionMessage(){
+        return null;
+    }
     @Nullable
-    public abstract List<String> getInvalidArgumentMessage();
+    public  List<String> getInvalidArgumentMessage(){
+        return null;
+    }
 
     protected abstract void run();
 
