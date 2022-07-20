@@ -6,7 +6,7 @@ public class DatabaseYaml extends YamlBase {
 
     public static final DatabaseYaml INSTANCE = new DatabaseYaml();
 
-    private DatabaseYaml() {
+    protected DatabaseYaml() {
         super("database.yml");
     }
 

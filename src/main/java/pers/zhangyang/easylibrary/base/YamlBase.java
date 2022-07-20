@@ -4,12 +4,14 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pers.zhangyang.easylibrary.EasyPlugin;
 import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class YamlBase {
 
@@ -23,6 +25,8 @@ public abstract class YamlBase {
      * @param filePath 在resource下的文件路径
      */
     protected YamlBase(@NotNull String filePath) {
+
+
         this.filePath = filePath;
         this.yamlConfiguration = new YamlConfiguration();
         this.backUpConfiguration = new YamlConfiguration();
@@ -35,7 +39,7 @@ public abstract class YamlBase {
      * @throws InvalidConfigurationException Yml文件格式不对
      */
     public void init() throws IOException, InvalidConfigurationException {
-        File file = new File( filePath);
+        File file = new File(EasyPlugin.instance.getDataFolder()+"/"+filePath);
         // 如果文件不存在就创建
         if (!file.exists()) {
             File dir = file.getParentFile();
@@ -47,7 +51,7 @@ public abstract class YamlBase {
             }
             //输出数据
             InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream(filePath);
-            if (in == null) {
+             if (in == null) {
                 throw new IOException();
             }
             OutputStream out = Files.newOutputStream(file.toPath());
@@ -61,7 +65,7 @@ public abstract class YamlBase {
         }
         //加载Yaml
         this.yamlConfiguration.load(file);
-        InputStream in = YamlBase.class.getClassLoader().getResourceAsStream(filePath);
+        InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream(filePath);
         if (in == null) {
             throw new IOException();
         }
@@ -81,7 +85,7 @@ public abstract class YamlBase {
                 Object ob = yamlConfiguration.get(path);
                 yamlConfiguration.set(path, null);
                 try {
-                    yamlConfiguration.save( filePath);
+                    yamlConfiguration.save( EasyPlugin.instance.getDataFolder()+"/"+filePath);
                 } catch (IOException e) {
                     yamlConfiguration.set(path, ob);
                     throw e;
@@ -94,7 +98,7 @@ public abstract class YamlBase {
                 Object ob = yamlConfiguration.get(pathBase);
                 yamlConfiguration.set(pathBase, backUpConfiguration.get(pathBase));
                 try {
-                    yamlConfiguration.save( filePath);
+                    yamlConfiguration.save( EasyPlugin.instance.getDataFolder()+"/"+filePath);
                 } catch (IOException e) {
                     yamlConfiguration.set(pathBase, ob);
                     throw e;
@@ -123,9 +127,10 @@ public abstract class YamlBase {
     @NotNull
     public String getStringDefault(@NotNull String path) {
         if (!yamlConfiguration.isString(path)) {
-            return backUpConfiguration.getString(path);
+            return Objects.requireNonNull(backUpConfiguration.getString(path));
         }
-        return yamlConfiguration.getString(path);
+
+        return Objects.requireNonNull(yamlConfiguration.getString(path));
     }
 
     @Nullable

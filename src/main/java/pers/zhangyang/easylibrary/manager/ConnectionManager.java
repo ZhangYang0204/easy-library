@@ -22,9 +22,9 @@ public class ConnectionManager {
         Connection connection = t.get();
         if (connection == null || connection.isClosed()) {
             DatabaseYaml databaseYamlManager = DatabaseYaml.INSTANCE;
-            connection = DriverManager.getConnection(databaseYamlManager.getStringDefault("setting.database.url"),
-                    databaseYamlManager.getStringDefault("setting.database.username"),
-                    databaseYamlManager.getStringDefault("setting.database.password"));
+            connection = DriverManager.getConnection(databaseYamlManager.getStringDefault("database.url"),
+                    databaseYamlManager.getString("database.username"),
+                    databaseYamlManager.getString("database.password"));
             connection.setAutoCommit(false);
             t.set(connection);
         }

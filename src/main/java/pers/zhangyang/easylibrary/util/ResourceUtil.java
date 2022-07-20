@@ -6,8 +6,52 @@ import pers.zhangyang.easylibrary.exception.FailureDeleteFileException;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class ResourceUtil {
+
+
+    public static List<Class> getClasssFromJarFile() {
+        String jarPaht = ResourceUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        List<Class> clazzs = new ArrayList<>();
+
+        JarFile jarFile = null;
+        try {
+            jarFile = new JarFile(jarPaht);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        List<JarEntry> jarEntryList = new ArrayList<>();
+
+        Enumeration<JarEntry> ee = jarFile.entries();
+
+        while (ee.hasMoreElements()) {
+            JarEntry entry =ee.nextElement();
+            // 过滤我们出满足我们需求的东西
+            if (entry.getName().startsWith("pers/zhangyang") && entry.getName().endsWith(".class")) {
+                jarEntryList.add(entry);
+            }
+        }
+        for (JarEntry entry : jarEntryList) {
+            String className = entry.getName().replace('/', '.');
+            System.out.println(className);
+            className = className.substring(0, className.length() - 6);
+            // 也可以采用如下方式把类加载成一个输入流
+            // InputStream in = jarFile.getInputStream(entry);
+            try {
+                clazzs.add(ResourceUtil.class.getClassLoader().loadClass(className));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(clazzs.size());
+        return clazzs;
+    }
     public static void deleteFile(@NotNull File file) throws FailureDeleteFileException {
         File[] files = file.listFiles();
         if (files == null) {
