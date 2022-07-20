@@ -39,7 +39,6 @@ public class ResourceUtil {
         }
         for (JarEntry entry : jarEntryList) {
             String className = entry.getName().replace('/', '.');
-            System.out.println(className);
             className = className.substring(0, className.length() - 6);
             // 也可以采用如下方式把类加载成一个输入流
             // InputStream in = jarFile.getInputStream(entry);
@@ -49,7 +48,6 @@ public class ResourceUtil {
                 e.printStackTrace();
             }
         }
-        System.out.println(clazzs.size());
         return clazzs;
     }
     public static void deleteFile(@NotNull File file) throws FailureDeleteFileException {

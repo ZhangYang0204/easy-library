@@ -53,7 +53,6 @@ public abstract class EasyPlugin extends JavaPlugin {
     private void automaticRegisterListener() throws Exception {
             List<Class> classList = ResourceUtil.getClasssFromJarFile();
             for (Class c : classList) {
-                System.out.println(c+"1");
                 if (!c.isAnnotationPresent(EventListener.class)) {
                     continue;
                 }
@@ -63,7 +62,6 @@ public abstract class EasyPlugin extends JavaPlugin {
                 if (!Listener.class.isAssignableFrom(c)) {
                     continue;
                 }
-                System.out.println(c);
                 Listener listener = (Listener) c.newInstance();
                 Bukkit.getPluginManager().registerEvents(listener, EasyPlugin.instance);
             }
