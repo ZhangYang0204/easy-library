@@ -57,6 +57,7 @@ public class PlayerClickGuiPage implements Listener {
                     }
 
                     try {
+                        m.setAccessible(true);
                         m.invoke(c.newInstance(), event);
                     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                         e.printStackTrace();
@@ -76,6 +77,7 @@ public class PlayerClickGuiPage implements Listener {
                     }
 
                     try {
+                        m.setAccessible(true);
                         m.invoke(c.newInstance(), event);
                     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                         e.printStackTrace();

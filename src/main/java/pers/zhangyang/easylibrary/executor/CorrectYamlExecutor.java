@@ -15,15 +15,12 @@ import java.util.List;
 public class CorrectYamlExecutor extends ExecutorBase {
 
 
-    public CorrectYamlExecutor(@NotNull CommandSender sender, boolean forcePlayer, String commandName, @NotNull String[] args) {
-        super(sender, forcePlayer, commandName, args);
+    public CorrectYamlExecutor(@NotNull CommandSender sender,  String commandName, @NotNull String[] args) {
+        super(sender,  commandName, args);
     }
 
     @Override
     protected void run() {
-        if (args.length != 0) {
-            return;
-        }
 
         try {
             List<Class> classList = ResourceUtil.getClasssFromJarFile();

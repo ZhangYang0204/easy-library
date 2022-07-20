@@ -9,9 +9,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pers.zhangyang.easylibrary.annotation.EventListener;
+import pers.zhangyang.easylibrary.base.ExecutorBase;
+import pers.zhangyang.easylibrary.base.GuiPage;
 import pers.zhangyang.easylibrary.executor.CorrectYamlExecutor;
 import pers.zhangyang.easylibrary.executor.HelpExecutor;
-import pers.zhangyang.easylibrary.executor.ReloadPlugin;
+import pers.zhangyang.easylibrary.executor.ReloadPluginExecutor;
 import pers.zhangyang.easylibrary.service.BaseService;
 import pers.zhangyang.easylibrary.service.impl.BaseServiceImpl;
 import pers.zhangyang.easylibrary.util.MessageUtil;
@@ -24,6 +26,8 @@ import pers.zhangyang.easylibrary.yaml.MessageYaml;
 import pers.zhangyang.easylibrary.yaml.SettingYaml;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -81,6 +85,7 @@ public abstract class EasyPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        GuiPage.revoke();
         onClose();
         MessageUtil.sendMessageTo(Bukkit.getConsoleSender(), MessageYaml.INSTANCE.getStringList("message.chat.disablePlugin"));
     }
@@ -89,26 +94,39 @@ public abstract class EasyPlugin extends JavaPlugin {
 
     public abstract void onClose();
 
-    public abstract void onExecutor(@NotNull CommandSender sender, String commandName, @NotNull String[] argument);
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
             return true;
         }
+
         String[] argument = new String[args.length - 1];
         System.arraycopy(args, 1, argument, 0, args.length - 1);
-        switch (args[0].toLowerCase(Locale.ROOT)) {
-            case "help" :
-                new HelpExecutor(sender, false, args[0], argument).process();
-                break;
-            case "correctyaml":
-                new CorrectYamlExecutor(sender, false, args[0], argument).process();
-                break;
-            case "reloadplugin":
-                new ReloadPlugin(sender, false, args[0], argument).process();
-            default:
-                onExecutor(sender, args[0], argument);
+
+
+        try {
+            List<Class> classList = ResourceUtil.getClasssFromJarFile();
+            for (Class c : classList) {
+                if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
+                    continue;
+                }
+                if (!ExecutorBase.class.isAssignableFrom(c)) {
+                    continue;
+                }
+
+                Constructor<ExecutorBase> constructor=c.getDeclaredConstructor(CommandSender.class,String.class,String[].class);
+                constructor.setAccessible(true);
+                ExecutorBase executorBase =  constructor.newInstance(sender,args[0],argument);
+                String name=executorBase.getClass().getName();
+                name=name.substring(0,name.length()-8);
+                name=name.split("\\.")[name.split("\\.").length-1];
+                if (!name.equalsIgnoreCase(args[0])){
+                    continue;
+                }
+                executorBase.process();
+            }
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
         }
 
         return true;
