@@ -3,20 +3,22 @@ package pers.zhangyang.easylibrary.dao;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pers.zhangyang.easylibrary.manager.ConnectionManager;
+import pers.zhangyang.easylibrary.base.DaoBase;
 import pers.zhangyang.easylibrary.meta.VersionMeta;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class VersionDao {
+import static pers.zhangyang.easylibrary.base.DaoBase.getConnection;
+
+public class VersionDao extends DaoBase {
 
     public static final VersionDao INSTANCE = new VersionDao();
 
     public int init() throws SQLException {
         PreparedStatement ps;
-        ps = ConnectionManager.INSTANCE.getConnection().prepareStatement("" +
+        ps = getConnection().prepareStatement("" +
                 "CREATE TABLE IF NOT EXISTS version (" +
                 "  big INT   ," +
                 "  middle INT   ," +
@@ -29,7 +31,7 @@ public class VersionDao {
     @Nullable
     public VersionMeta get() throws SQLException {
         PreparedStatement ps;
-        ps = ConnectionManager.INSTANCE.getConnection().prepareStatement("select * from version");
+        ps = getConnection().prepareStatement("select * from version");
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             return transform(rs);
@@ -39,7 +41,7 @@ public class VersionDao {
 
     public int insert(@NotNull VersionMeta version) throws SQLException {
         PreparedStatement ps;
-        ps = ConnectionManager.INSTANCE.getConnection().prepareStatement("insert into version (big,middle,small)" +
+        ps = getConnection().prepareStatement("insert into version (big,middle,small)" +
                 "values(?,?,?)");
         ps.setInt(1, version.getBig());
         ps.setInt(2, version.getMiddle());
@@ -49,7 +51,7 @@ public class VersionDao {
 
     public int delete() throws SQLException {
         PreparedStatement ps;
-        ps = ConnectionManager.INSTANCE.getConnection().prepareStatement("delete from version ");
+        ps = getConnection().prepareStatement("delete from version ");
         return ps.executeUpdate();
     }
 

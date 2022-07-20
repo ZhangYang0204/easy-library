@@ -3,7 +3,7 @@ package pers.zhangyang.easylibrary.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pers.zhangyang.easylibrary.manager.ConnectionManager;
+import pers.zhangyang.easylibrary.base.DaoBase;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -21,7 +21,7 @@ public class TransactionInvocationHandler implements InvocationHandler {
 
     @Nullable
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Connection connection = ConnectionManager.INSTANCE.getConnection();
+        Connection connection = DaoBase.getConnection();
         Object obj;
         try {
             obj = method.invoke(target, args);

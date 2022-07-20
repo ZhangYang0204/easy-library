@@ -56,17 +56,6 @@ public abstract class EasyPlugin extends JavaPlugin {
         }
         onOpen();
         try {
-            automaticRegisterListener();
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.setEnabled(false);
-        }
-
-        NotifyVersionUtil.notifyVersion(Bukkit.getConsoleSender());
-        MessageUtil.sendMessageTo(Bukkit.getConsoleSender(), MessageYaml.INSTANCE.getStringList("message.chat.enablePlugin"));
-    }
-
-    private void automaticRegisterListener() throws Exception {
             List<Class> classList = ResourceUtil.getClasssFromJarFile();
             for (Class c : classList) {
                 if (!c.isAnnotationPresent(EventListener.class)) {
@@ -81,8 +70,14 @@ public abstract class EasyPlugin extends JavaPlugin {
                 Listener listener = (Listener) c.newInstance();
                 Bukkit.getPluginManager().registerEvents(listener, EasyPlugin.instance);
             }
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
+        NotifyVersionUtil.notifyVersion(Bukkit.getConsoleSender());
+        MessageUtil.sendMessageTo(Bukkit.getConsoleSender(), MessageYaml.INSTANCE.getStringList("message.chat.enablePlugin"));
     }
+
 
     @Override
     public void onDisable() {

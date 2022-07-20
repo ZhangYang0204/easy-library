@@ -37,7 +37,7 @@ public class CorrectYamlExecutor extends ExecutorBase {
                 YamlBase yamlBase = (YamlBase) c.getField("INSTANCE").get(c);
                 yamlBase.correct();
             }
-        } catch (IOException | IllegalAccessException | NoSuchFieldException e) {
+        } catch (IOException | NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
 

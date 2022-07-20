@@ -74,7 +74,8 @@ public class Metrics {
                     .copyDefaults(true);
             try {
                 config.save(configFile);
-            } catch (IOException ignored) {
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         // Load the data
