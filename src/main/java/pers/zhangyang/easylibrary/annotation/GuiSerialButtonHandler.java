@@ -6,9 +6,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GuiDiscreteButtonHandler {
+public @interface GuiSerialButtonHandler {
     Class <? extends InventoryHolder> guiPage();
-    int[] slot();
+    int from();
+    int to();
 
 
 }
