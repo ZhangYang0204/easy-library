@@ -9,9 +9,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pers.zhangyang.easylibrary.annotation.EventListener;
+import pers.zhangyang.easylibrary.executor.CorrectYamlExecutor;
+import pers.zhangyang.easylibrary.executor.HelpExecutor;
+import pers.zhangyang.easylibrary.executor.ReloadPlugin;
+import pers.zhangyang.easylibrary.service.BaseService;
+import pers.zhangyang.easylibrary.service.impl.BaseServiceImpl;
 import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.NotifyVersionUtil;
 import pers.zhangyang.easylibrary.util.ResourceUtil;
+import pers.zhangyang.easylibrary.util.TransactionInvocationHandler;
 import pers.zhangyang.easylibrary.yaml.CompleterYaml;
 import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
 import pers.zhangyang.easylibrary.yaml.MessageYaml;
@@ -19,8 +25,10 @@ import pers.zhangyang.easylibrary.yaml.SettingYaml;
 
 import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public abstract class EasyPlugin extends JavaPlugin {
     public static EasyPlugin instance;
@@ -37,8 +45,16 @@ public abstract class EasyPlugin extends JavaPlugin {
             e.printStackTrace();
             this.setEnabled(false);
         }
-        onOpen();
 
+        BaseService baseService= (BaseService) new TransactionInvocationHandler(BaseServiceImpl.INSTANCE).getProxy();
+
+        try {
+            baseService.initDatabase();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.setEnabled(false);
+        }
+        onOpen();
         try {
             automaticRegisterListener();
         } catch (Exception e) {
@@ -87,7 +103,19 @@ public abstract class EasyPlugin extends JavaPlugin {
         }
         String[] argument = new String[args.length - 1];
         System.arraycopy(args, 1, argument, 0, args.length - 1);
-        onExecutor(sender, args[0], argument);
+        switch (args[0].toLowerCase(Locale.ROOT)) {
+            case "help" :
+                new HelpExecutor(sender, false, args[0], argument).process();
+                break;
+            case "correctyaml":
+                new CorrectYamlExecutor(sender, false, args[0], argument).process();
+                break;
+            case "reloadplugin":
+                new ReloadPlugin(sender, false, args[0], argument).process();
+            default:
+                onExecutor(sender, args[0], argument);
+        }
+
         return true;
     }
 
