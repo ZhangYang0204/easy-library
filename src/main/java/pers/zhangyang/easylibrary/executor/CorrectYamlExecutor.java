@@ -41,7 +41,6 @@ public class CorrectYamlExecutor extends ExecutorBase {
             e.printStackTrace();
         }
 
-        System.out.println(123);
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.correctYaml"));
     }
 }
