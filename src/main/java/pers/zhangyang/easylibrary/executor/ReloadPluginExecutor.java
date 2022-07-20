@@ -39,7 +39,7 @@ public class ReloadPluginExecutor extends ExecutorBase {
 
         try {
             guiService.initDatabase();
-        } catch (SQLException e) {
+        } catch (SQLException | IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
     }

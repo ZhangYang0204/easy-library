@@ -1,6 +1,8 @@
 package pers.zhangyang.easylibrary.listener;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -11,10 +13,15 @@ import pers.zhangyang.easylibrary.annotation.GuiDiscreteButtonHandler;
 import pers.zhangyang.easylibrary.annotation.GuiSerialButtonHandler;
 import pers.zhangyang.easylibrary.base.GuiPage;
 import pers.zhangyang.easylibrary.util.ResourceUtil;
+import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +40,16 @@ public class PlayerClickGuiPage implements Listener {
         if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
             return;
         }
-        List<Class> classList = ResourceUtil.getClasssFromJarFile();
+        InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
+        YamlConfiguration yamlConfiguration=new YamlConfiguration();
+        InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
+        try {
+            yamlConfiguration.load(inputStreamReader);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+            return;
+        }
+        List<Class> classList = ResourceUtil.getClasssFromJarFile(yamlConfiguration.getStringList("guiButtonHandlerPackage"));
         for (Class c : classList) {
             if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
                 continue;

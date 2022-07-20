@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -26,9 +27,12 @@ import pers.zhangyang.easylibrary.yaml.MessageYaml;
 import pers.zhangyang.easylibrary.yaml.SettingYaml;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +58,18 @@ public abstract class EasyPlugin extends JavaPlugin {
 
         try {
             baseService.initDatabase();
-        } catch (SQLException e) {
+        } catch (SQLException | IOException | InvalidConfigurationException e) {
             e.printStackTrace();
             this.setEnabled(false);
         }
         onOpen();
         try {
-            List<Class> classList = ResourceUtil.getClasssFromJarFile();
+
+            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
+            YamlConfiguration yamlConfiguration=new YamlConfiguration();
+            InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
+            yamlConfiguration.load(inputStreamReader);
+            List<Class> classList = ResourceUtil.getClasssFromJarFile(yamlConfiguration.getStringList("listenerPackage"));
             for (Class c : classList) {
                 if (!c.isAnnotationPresent(EventListener.class)) {
                     continue;
@@ -76,6 +85,9 @@ public abstract class EasyPlugin extends JavaPlugin {
             }
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+            this.setEnabled(false);
         }
 
         NotifyVersionUtil.notifyVersion(Bukkit.getConsoleSender());
@@ -105,7 +117,12 @@ public abstract class EasyPlugin extends JavaPlugin {
 
 
         try {
-            List<Class> classList = ResourceUtil.getClasssFromJarFile();
+
+            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
+            YamlConfiguration yamlConfiguration=new YamlConfiguration();
+            InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
+            yamlConfiguration.load(inputStreamReader);
+            List<Class> classList = ResourceUtil.getClasssFromJarFile(yamlConfiguration.getStringList("executorPackage"));
             for (Class c : classList) {
                 if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
                     continue;
@@ -125,7 +142,7 @@ public abstract class EasyPlugin extends JavaPlugin {
                 }
                 executorBase.process();
             }
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
 

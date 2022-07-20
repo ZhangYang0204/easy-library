@@ -15,7 +15,7 @@ import java.util.jar.JarFile;
 public class ResourceUtil {
 
 
-    public static List<Class> getClasssFromJarFile() {
+    public static List<Class> getClasssFromJarFile(List<String> packageList) {
         String jarPaht = ResourceUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         List<Class> clazzs = new ArrayList<>();
 
@@ -33,8 +33,10 @@ public class ResourceUtil {
         while (ee.hasMoreElements()) {
             JarEntry entry =ee.nextElement();
             // 过滤我们出满足我们需求的东西
-            if (entry.getName().startsWith("pers/zhangyang") && entry.getName().endsWith(".class")) {
-                jarEntryList.add(entry);
+            for (String s:packageList) {
+                if (entry.getName().startsWith(s) && entry.getName().endsWith(".class")) {
+                    jarEntryList.add(entry);
+                }
             }
         }
         for (JarEntry entry : jarEntryList) {
