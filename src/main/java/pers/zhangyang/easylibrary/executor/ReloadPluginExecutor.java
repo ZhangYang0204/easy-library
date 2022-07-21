@@ -34,6 +34,8 @@ public class ReloadPluginExecutor extends ExecutorBase {
             e.printStackTrace();
             return;
         }
+
+        GuiPage.revoke();
         //初始化数据库
         CommandService guiService = (CommandService) new TransactionInvocationHandler(CommandServiceImpl.INSTANCE).getProxy();
 

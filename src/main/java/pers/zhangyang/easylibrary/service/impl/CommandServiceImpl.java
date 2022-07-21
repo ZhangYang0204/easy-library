@@ -34,8 +34,8 @@ public class CommandServiceImpl implements CommandService {
             }
             DaoBase daoBase = null;
             try {
-                daoBase = (DaoBase) c.getField("INSTANCE").get(c);
-            } catch (IllegalAccessException | NoSuchFieldException e) {
+                daoBase= (DaoBase) c.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
             assert daoBase != null;

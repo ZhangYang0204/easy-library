@@ -50,7 +50,6 @@ public class CorrectYamlExecutor extends ExecutorBase {
             e.printStackTrace();
             return;
         }
-
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.correctYaml"));
     }
 }
