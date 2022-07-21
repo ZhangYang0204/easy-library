@@ -42,29 +42,34 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
+            <scope>test</scope>
         </dependency>
         <!--This adds the Spigot API artifact to the build -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.19-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>23.0.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
+            <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.black_ixx</groupId>
             <artifactId>playerpoints</artifactId>
             <version>3.0.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
+
 </project>
