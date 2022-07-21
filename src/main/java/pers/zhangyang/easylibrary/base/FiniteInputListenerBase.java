@@ -25,7 +25,7 @@ public abstract class FiniteInputListenerBase implements Listener {
             return;
         }
         event.setCancelled(true);
-        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getString("message.input.cancel"))){
+        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getInput("message.input.cancel"))){
             previousPage.send();
             return;
         }

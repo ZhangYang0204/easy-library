@@ -27,11 +27,11 @@ public abstract class InfiniteInputListenerBase implements Listener {
             return;
         }
         event.setCancelled(true);
-        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getString("message.input.cancel"))){
+        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getInput("message.input.cancel"))){
             previousPage.send();
             return;
         }
-        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getString("message.input.submit"))){
+        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getInput("message.input.submit"))){
             previousPage.send();
             AsyncPlayerChatEvent.getHandlerList().unregister(EasyPlugin.instance);
             PlayerQuitEvent.getHandlerList().unregister(EasyPlugin.instance);
