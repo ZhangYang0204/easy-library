@@ -19,7 +19,8 @@ public abstract class DaoBase {
         Connection connection = t.get();
         if (connection == null || connection.isClosed()) {
             DatabaseYaml databaseYamlManager = DatabaseYaml.INSTANCE;
-            connection = DriverManager.getConnection(databaseYamlManager.getStringDefault("database.url"),
+            connection = DriverManager.getConnection(
+                    databaseYamlManager.getStringDefault("database.url"),
                     databaseYamlManager.getString("database.username"),
                     databaseYamlManager.getString("database.password"));
             connection.setAutoCommit(false);

@@ -56,13 +56,14 @@ public abstract class EasyPlugin extends JavaPlugin {
 
         BaseService baseService= (BaseService) new TransactionInvocationHandler(BaseServiceImpl.INSTANCE).getProxy();
 
+        //必须先open再init
+        onOpen();
         try {
             baseService.initDatabase();
         } catch (SQLException | IOException | InvalidConfigurationException e) {
             e.printStackTrace();
             this.setEnabled(false);
         }
-        onOpen();
         try {
 
             InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");

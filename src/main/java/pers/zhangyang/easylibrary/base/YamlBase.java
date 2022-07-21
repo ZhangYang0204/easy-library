@@ -71,7 +71,7 @@ public abstract class YamlBase {
         }
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
         this.backUpConfiguration.load(inputStreamReader);
-    }
+       }
 
     /**
      * 修正配置文件内容
