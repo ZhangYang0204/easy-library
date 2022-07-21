@@ -153,15 +153,21 @@ public abstract class EasyPlugin extends JavaPlugin {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+
+        if (args.length==0){
+            return new ArrayList<>();
+        }
+
         List<String> list;
 
         char[] pluginNameChars = getName().toCharArray();
-        pluginNameChars[0] = (char) (pluginNameChars[0] + 32);
+        pluginNameChars[0] = (Character.toLowerCase(pluginNameChars[0]));
         StringBuilder key = new StringBuilder(String.valueOf(pluginNameChars));
+
 
         if (args.length == 1) {
             list = CompleterYaml.INSTANCE.getStringList("completer." + key);
-            String ll = args[0].toLowerCase();
+            String ll = args[args.length-1].toLowerCase();
             if (list != null) {
                 list.removeIf(k -> !k.toLowerCase().startsWith(ll));
             }
@@ -170,19 +176,22 @@ public abstract class EasyPlugin extends JavaPlugin {
             }
             return list;
         }
-        if (!sender.hasPermission(args[0])) {
+        if (!sender.hasPermission(EasyPlugin.instance.getName()+"."+args[0])) {
             return new ArrayList<>();
         }
 
         char[] chars = args[0].toCharArray();
-        chars[0] = (char) (pluginNameChars[0] + 32);
-        key.append(chars[0]);
+        if (chars.length!=0){
+        chars[0] =  (Character.toUpperCase(chars[0]));
+        }
+        key.append(chars);
 
-        for (int i = 0; i < alias.length() - 1; i++) {
+
+        for (int i = 0; i < args.length - 2; i++) {
             key.append("$");
         }
         list = CompleterYaml.INSTANCE.getStringList("completer." + key);
-        String ll = args[0].toLowerCase();
+        String ll = args[args.length-1].toLowerCase();
         if (list != null) {
             list.removeIf(k -> !k.toLowerCase().startsWith(ll));
         }
