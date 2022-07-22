@@ -5,13 +5,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pers.zhangyang.easylibrary.exception.NotExistBackPageException;
+import pers.zhangyang.easylibrary.exception.NotExistNextException;
+import pers.zhangyang.easylibrary.exception.NotExistPreviousException;
 
 public abstract class MultipleGuiPageBase implements GuiPage {
     protected Inventory inventory;
     protected Player viewer;
     protected int pageIndex;
+    protected GuiPage backPage;
 
-    public MultipleGuiPageBase(@Nullable String title, Player viewer){
+    public MultipleGuiPageBase(@Nullable String title,@NotNull Player viewer,@Nullable GuiPage backPage){
         if (title!=null){
             inventory= Bukkit.createInventory(this,54,title);
         }else {
@@ -19,6 +23,7 @@ public abstract class MultipleGuiPageBase implements GuiPage {
         }
         this.viewer=viewer;
         this.pageIndex=0;
+        this.backPage = backPage;
         refresh();
     }
     public void send(){
@@ -27,14 +32,18 @@ public abstract class MultipleGuiPageBase implements GuiPage {
     }
     public abstract void refresh();
 
-    public  void nextPage(){
+    public  void nextPage() throws NotExistNextException {
         this.pageIndex++;
         refresh();
     }
 
-    public  void previousPage(){
+    public  void previousPage() throws NotExistPreviousException {
         this.pageIndex--;
         refresh();
+    }
+
+    public void backPage() throws  NotExistBackPageException{
+        backPage.send();
     }
 
     @NotNull
