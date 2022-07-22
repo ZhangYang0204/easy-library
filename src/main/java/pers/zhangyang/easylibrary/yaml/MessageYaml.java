@@ -10,7 +10,7 @@ public class MessageYaml extends YamlBase {
     public static final MessageYaml INSTANCE = new MessageYaml();
 
     protected MessageYaml() {
-        super("display/" + SettingYaml.INSTANCE.getDisplay() + "/message模板.yml");
+        super("display/" + SettingYaml.INSTANCE.getDisplay() + "/message.yml");
     }
 
     @Nullable

@@ -7,7 +7,7 @@ public class DatabaseYaml extends YamlBase {
     public static final DatabaseYaml INSTANCE = new DatabaseYaml();
 
     protected DatabaseYaml() {
-        super("database模板.yml");
+        super("database.yml");
     }
 
 
