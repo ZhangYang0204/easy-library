@@ -23,7 +23,9 @@ public abstract class SingleGuiPageBase implements GuiPage {
         this.backPage =backPage;
         refresh();
     }
-    public abstract void send();
+    public void send(){
+        refresh();
+    }
     public abstract void refresh();
     public void backPage() throws NotExistBackPageException {
         backPage.send();
