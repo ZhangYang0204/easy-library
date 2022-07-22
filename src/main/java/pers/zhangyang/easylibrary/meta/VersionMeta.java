@@ -1,9 +1,12 @@
 package pers.zhangyang.easylibrary.meta;
 
 public class VersionMeta {
-    private final int big;
-    private final int middle;
-    private final int small;
+    private  int big;
+    private  int middle;
+    private  int small;
+
+    public VersionMeta() {
+    }
 
     public VersionMeta(int big, int middle, int small) {
         this.big = big;
