@@ -1,6 +1,7 @@
 package pers.zhangyang.easylibrary.base;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +15,7 @@ public abstract class SingleGuiPageBase implements GuiPage {
 
     public SingleGuiPageBase(@Nullable String title, Player viewer,GuiPage backPage){
         if (title!=null){
-            inventory= Bukkit.createInventory(this,54,title);
+            inventory= Bukkit.createInventory(this,54, ChatColor.translateAlternateColorCodes('&', title));
         }else {
             inventory=Bukkit.createInventory(this,54);
         }
