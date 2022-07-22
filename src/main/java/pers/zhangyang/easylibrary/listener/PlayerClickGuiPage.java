@@ -50,6 +50,9 @@ public class PlayerClickGuiPage implements Listener {
         }
         List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("guiButtonHandlerPackage"));
         for (Class c : classList) {
+            if (!c.isAnnotationPresent(EventListener.class)){
+                continue;
+            }
             if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
                 continue;
             }

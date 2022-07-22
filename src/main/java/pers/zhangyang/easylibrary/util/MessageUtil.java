@@ -12,14 +12,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class MessageUtil {
-    protected void notPlayer(CommandSender sender) {
+    public static void notPlayer(CommandSender sender) {
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.notPlayer"));
     }
 
-    protected void notItemInMainHand(CommandSender sender) {
+    public static  void notItemInMainHand(CommandSender sender) {
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.notItemInMainHand"));
     }
-    protected void invalidArgument(@NotNull CommandSender sender,String arg) {
+    public static  void invalidArgument(@NotNull CommandSender sender,String arg) {
         List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.invalidArgument");
         if (list != null) {
             ReplaceUtil.replace(list, Collections.singletonMap("{argument}", arg));
