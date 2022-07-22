@@ -14,7 +14,6 @@ import static pers.zhangyang.easylibrary.base.DaoBase.getConnection;
 
 public class VersionDao extends DaoBase {
 
-    public static final VersionDao INSTANCE = new VersionDao();
 
     public int init(){
         try {

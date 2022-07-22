@@ -2,6 +2,7 @@ package pers.zhangyang.easylibrary.base;
 
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import pers.zhangyang.easylibrary.EasyPlugin;
 import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.ReplaceUtil;
 import pers.zhangyang.easylibrary.yaml.MessageYaml;
@@ -26,7 +27,7 @@ public abstract class ExecutorBase {
 
     //执行命令，同时回判断有无权限
     public void process() {
-        String permission = "EasyGuiShop." + commandName;
+        String permission = EasyPlugin.instance.getName()+ "." + commandName;
         if (!sender.hasPermission(permission)) {
             List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notPermission");
             if (list != null) {

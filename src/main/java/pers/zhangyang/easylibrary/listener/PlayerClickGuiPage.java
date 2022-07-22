@@ -25,7 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-@EventListener
 public class PlayerClickGuiPage implements Listener {
 
 
@@ -40,7 +39,7 @@ public class PlayerClickGuiPage implements Listener {
         if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
             return;
         }
-        InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary模板.yml");
+        InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
         YamlConfiguration yamlConfiguration=new YamlConfiguration();
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
         try {

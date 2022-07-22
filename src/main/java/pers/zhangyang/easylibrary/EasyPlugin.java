@@ -13,6 +13,11 @@ import pers.zhangyang.easylibrary.annotation.EventListener;
 import pers.zhangyang.easylibrary.base.ExecutorBase;
 import pers.zhangyang.easylibrary.base.GuiPage;
 import pers.zhangyang.easylibrary.base.YamlBase;
+import pers.zhangyang.easylibrary.executor.CorrectYamlExecutor;
+import pers.zhangyang.easylibrary.executor.HelpExecutor;
+import pers.zhangyang.easylibrary.executor.ReloadPluginExecutor;
+import pers.zhangyang.easylibrary.listener.PlayerClickGuiPage;
+import pers.zhangyang.easylibrary.listener.PlayerJoin;
 import pers.zhangyang.easylibrary.service.BaseService;
 import pers.zhangyang.easylibrary.service.impl.BaseServiceImpl;
 import pers.zhangyang.easylibrary.util.MessageUtil;
@@ -22,6 +27,7 @@ import pers.zhangyang.easylibrary.util.TransactionInvocationHandler;
 import pers.zhangyang.easylibrary.yaml.CompleterYaml;
 import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
 import pers.zhangyang.easylibrary.yaml.MessageYaml;
+import pers.zhangyang.easylibrary.yaml.SettingYaml;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +47,11 @@ public abstract class EasyPlugin extends JavaPlugin {
         instance = this;
         //加载Yaml类，自动init他们
         try {
-            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary模板.yml");
+            CompleterYaml.INSTANCE.init();
+            DatabaseYaml.INSTANCE.init();
+            MessageYaml.INSTANCE.init();
+            SettingYaml.INSTANCE.init();
+            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
             YamlConfiguration yamlConfiguration = new YamlConfiguration();
             assert in != null;
             InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
@@ -69,8 +79,10 @@ public abstract class EasyPlugin extends JavaPlugin {
         baseService.initDatabase();
 
         //自动注册有注解的监听器
+        Bukkit.getPluginManager().registerEvents(new PlayerClickGuiPage(),this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoin(),this);
         try {
-            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary模板.yml");
+            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
             YamlConfiguration yamlConfiguration = new YamlConfiguration();
             assert in != null;
             InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
@@ -121,12 +133,24 @@ public abstract class EasyPlugin extends JavaPlugin {
             return true;
         }
 
+
+
+
         String[] argument = new String[args.length - 1];
         System.arraycopy(args, 1, argument, 0, args.length - 1);
-
+//注册内部的
+        if (args[0].equalsIgnoreCase("CorrectYaml")){
+            new CorrectYamlExecutor(sender,args[0],argument).process();
+        }
+        if (args[0].equalsIgnoreCase("Help")){
+            new HelpExecutor(sender,args[0],argument).process();
+        }
+        if (args[0].equalsIgnoreCase("ReloadPlugin")){
+            new ReloadPluginExecutor(sender,args[0],argument).process();
+        }
         try {
 
-            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary模板.yml");
+            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
             YamlConfiguration yamlConfiguration = new YamlConfiguration();
             assert in != null;
             InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
