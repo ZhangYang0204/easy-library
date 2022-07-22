@@ -37,10 +37,9 @@ public class VersionDao extends DaoBase {
         PreparedStatement ps;
         ps = getConnection().prepareStatement("select * from version");
         ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return singleTransform(rs,VersionMeta.class);
-        }
-        return null;
+
+        return singleTransform(rs,VersionMeta.class);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
