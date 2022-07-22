@@ -7,9 +7,9 @@ import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
 public interface GuiPage extends InventoryHolder {
-
-
     void send();
+
+    void refresh();
 
     static void revoke() {
         for (Player p : Bukkit.getOnlinePlayers()) {
