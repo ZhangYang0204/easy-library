@@ -16,11 +16,11 @@ public class WorldUtil {
         WorldCreator worldCreator = new WorldCreator(worldName);
 
 
-        if (MinecraftVersionUtil.getBigVersion() == 1 && MinecraftVersionUtil.getMiddleVersion() < 13) {
+        if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil.getMinecraftMiddleVersion() < 13) {
             worldCreator.type(WorldType.FLAT);
             worldCreator.generatorSettings("2;0;1;"); //This is what makes the world empty (void)
             worldCreator.createWorld();
-        } else if (MinecraftVersionUtil.getBigVersion() == 1 && MinecraftVersionUtil.getMiddleVersion() < 18) {
+        } else if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil.getMinecraftMiddleVersion() < 18) {
             worldCreator.generator(
                     new ChunkGenerator() {
                         @NotNull

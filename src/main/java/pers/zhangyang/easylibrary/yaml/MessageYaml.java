@@ -1,7 +1,6 @@
 package pers.zhangyang.easylibrary.yaml;
 
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pers.zhangyang.easylibrary.base.YamlBase;
@@ -11,7 +10,7 @@ public class MessageYaml extends YamlBase {
     public static final MessageYaml INSTANCE = new MessageYaml();
 
     protected MessageYaml() {
-        super("display/" + SettingYaml.INSTANCE.getDisplay() + "/message.yml");
+        super("display/" + SettingYaml.INSTANCE.getDisplay() + "/message模板.yml");
     }
 
     @Nullable

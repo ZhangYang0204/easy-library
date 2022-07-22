@@ -15,17 +15,16 @@ import java.util.jar.JarFile;
 public class ResourceUtil {
 
 
-    public static List<Class> getClasssFromJarFile(List<String> packageList) {
+    public static List<Class> getClassesFromJarFile(List<String> packageList) {
         String jarPaht = ResourceUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         List<Class> clazzs = new ArrayList<>();
 
-        JarFile jarFile = null;
+        JarFile jarFile;
         try {
             jarFile = new JarFile(jarPaht);
         } catch (IOException e1) {
-            e1.printStackTrace();
+            throw new RuntimeException(e1);
         }
-
         List<JarEntry> jarEntryList = new ArrayList<>();
 
         Enumeration<JarEntry> ee = jarFile.entries();

@@ -1,0 +1,25 @@
+message:
+  input:
+    cancel: "取消"
+    submit: "提交"
+  chat:
+    failureGetLatestVersion:
+      - "&c&l获得插件最新版本失败。"
+    notPlayer:
+      - "&c&l您不是玩家，不能执行这条命令。"
+    notPermission:
+      - "&c&l您缺少权限 &f{permission}。"
+    correctYaml:
+      - "&b&l已修正所有Yaml文件缺少和多余键值。"
+    help:
+      - "&b&l====帮助列表===="
+    invalidArgument:
+      - "&c&l无效参数 &f{argument}。"
+    notifyVersion:
+      - "&b&l插件的当前版本是 &f{current_version}，&b&l最新版本是 &f{latest_version}。"
+    reloadPlugin:
+      - "&c&l您重载了插件。"
+    enablePlugin:
+      - "&a插件开启"
+    disablePlugin:
+      - "&c插件关闭"

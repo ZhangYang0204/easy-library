@@ -1,16 +1,35 @@
 package pers.zhangyang.easylibrary.util;
 
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
-public class InventoryUtil {
+public class PlayerUtil {
+    @NotNull
+    public static ItemStack getPlayerSkullItem(OfflinePlayer player) {
+        ItemStack itemStack = ItemStackUtil.getPlayerSkullItem();
+        SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
+        assert skullMeta != null;
+        if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil.getMinecraftMiddleVersion() < 13) {
+            skullMeta.setOwner(player.getName());
+        } else {
+            skullMeta.setOwningPlayer(player);
+        }
+        itemStack.setItemMeta(skullMeta);
+        return itemStack;
+    }
 
+    public static boolean hasItemInMainHand(@NotNull Player player) {
+        return !PlayerUtil.getItemInMainHand(player).getType().equals(Material.AIR);
+    }
     @NotNull
     public static ItemStack getItemInMainHand(@NotNull Player player) {
-        int big = MinecraftVersionUtil.getBigVersion();
-        int middle = MinecraftVersionUtil.getMiddleVersion();
+        int big = VersionUtil.getMinecraftBigVersion();
+        int middle = VersionUtil.getMinecraftMiddleVersion();
         if (big == 1 && middle < 9) {
             return player.getInventory().getItemInHand();
         } else {

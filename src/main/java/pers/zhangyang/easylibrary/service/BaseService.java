@@ -6,6 +6,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public interface BaseService {
-    void initDatabase() throws SQLException, IOException, InvalidConfigurationException;
+    void initDatabase();
 
 }

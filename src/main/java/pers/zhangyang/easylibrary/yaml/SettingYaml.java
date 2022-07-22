@@ -8,7 +8,7 @@ public class SettingYaml extends YamlBase {
     public static final SettingYaml INSTANCE = new SettingYaml();
 
     protected SettingYaml() {
-        super("setting.yml");
+        super("setting模板.yml");
 
     }
 

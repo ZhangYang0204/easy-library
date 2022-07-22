@@ -40,7 +40,7 @@ public class PlayerClickGuiPage implements Listener {
         if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
             return;
         }
-        InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
+        InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary模板.yml");
         YamlConfiguration yamlConfiguration=new YamlConfiguration();
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
         try {
@@ -49,7 +49,7 @@ public class PlayerClickGuiPage implements Listener {
             e.printStackTrace();
             return;
         }
-        List<Class> classList = ResourceUtil.getClasssFromJarFile(yamlConfiguration.getStringList("guiButtonHandlerPackage"));
+        List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("guiButtonHandlerPackage"));
         for (Class c : classList) {
             if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
                 continue;

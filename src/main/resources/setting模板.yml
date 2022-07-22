@@ -1,0 +1,5 @@
+setting:
+
+  #使用哪一套语言，目前仅支持default、english
+  ##Which language is used? Currently, only default and English are supported
+  display: "default"

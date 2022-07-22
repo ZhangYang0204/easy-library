@@ -2,13 +2,11 @@ package pers.zhangyang.easylibrary.util;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pers.zhangyang.easylibrary.exception.NotApplicableException;
@@ -18,23 +16,10 @@ import java.util.List;
 
 public class ItemStackUtil {
 
-    @NotNull
-    public static ItemStack getPlayerSkullItem(OfflinePlayer player) {
-        ItemStack itemStack = getPlayerSkullItem();
-        SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
-        assert skullMeta != null;
-        if (MinecraftVersionUtil.getBigVersion() == 1 && MinecraftVersionUtil.getMiddleVersion() < 13) {
-            skullMeta.setOwner(player.getName());
-        } else {
-            skullMeta.setOwningPlayer(player);
-        }
-        itemStack.setItemMeta(skullMeta);
-        return itemStack;
-    }
 
     @NotNull
     public static ItemStack getPlayerSkullItem() {
-        if (MinecraftVersionUtil.getBigVersion() == 1 && MinecraftVersionUtil.getMiddleVersion() < 13) {
+        if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil.getMinecraftMiddleVersion() < 13) {
             return new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short) 3);
         } else {
             return new ItemStack(Material.valueOf("PLAYER_HEAD"));
@@ -56,8 +41,8 @@ public class ItemStackUtil {
         for (ItemFlag i : itemMeta.getItemFlags()) {
             targetMeta.addItemFlags(i);
         }
-        if (MinecraftVersionUtil.getBigVersion() == 1 && MinecraftVersionUtil
-                .getMiddleVersion() >= 13 && itemMeta.hasCustomModelData()) {
+        if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil
+                .getMinecraftMiddleVersion() >= 13 && itemMeta.hasCustomModelData()) {
             targetMeta.setCustomModelData(itemMeta.getCustomModelData());
         }
         target.setItemMeta(targetMeta);
@@ -100,8 +85,8 @@ public class ItemStackUtil {
     public static ItemStack getItemStack(@NotNull Material material, @Nullable String displayName,
                                          @Nullable List<String> lore, @Nullable List<ItemFlag> flagList,
                                          int amount, @Nullable Integer customModelData) throws NotApplicableException, UnsupportedMinecraftVersionException {
-        if (MinecraftVersionUtil.getBigVersion() == 1 && MinecraftVersionUtil
-                .getMiddleVersion() < 13) {
+        if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil
+                .getMinecraftMiddleVersion() < 13) {
             throw new UnsupportedMinecraftVersionException();
         }
         ItemStack itemStack = getItemStack(material, displayName, lore, flagList, amount);

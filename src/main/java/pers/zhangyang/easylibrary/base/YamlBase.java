@@ -25,20 +25,18 @@ public abstract class YamlBase {
      * @param filePath 在resource下的文件路径
      */
     protected YamlBase(@NotNull String filePath) {
-
-
         this.filePath = filePath;
         this.yamlConfiguration = new YamlConfiguration();
         this.backUpConfiguration = new YamlConfiguration();
+        init();
     }
 
     /**
-     * 会把对应的文件保存到PluginEasyGuiShop下
+     * 会把对应的文件保存
      *
-     * @throws IOException                   IO异常
-     * @throws InvalidConfigurationException Yml文件格式不对
      */
-    public void init() throws IOException, InvalidConfigurationException {
+    public void init(){
+        try {
         File file = new File(EasyPlugin.instance.getDataFolder()+"/"+filePath);
         // 如果文件不存在就创建
         if (!file.exists()) {
@@ -71,14 +69,18 @@ public abstract class YamlBase {
         }
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
         this.backUpConfiguration.load(inputStreamReader);
-       }
+
+        } catch (IOException | InvalidConfigurationException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * 修正配置文件内容
      *
-     * @throws IOException io异常
      */
-    public void correct() throws IOException {
+    public void correct(){
+
         //删除多余的
         for (String path : yamlConfiguration.getKeys(true)) {
             if (!backUpConfiguration.getKeys(true).contains(path)) {
@@ -88,7 +90,7 @@ public abstract class YamlBase {
                     yamlConfiguration.save( EasyPlugin.instance.getDataFolder()+"/"+filePath);
                 } catch (IOException e) {
                     yamlConfiguration.set(path, ob);
-                    throw e;
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -101,7 +103,7 @@ public abstract class YamlBase {
                     yamlConfiguration.save( EasyPlugin.instance.getDataFolder()+"/"+filePath);
                 } catch (IOException e) {
                     yamlConfiguration.set(pathBase, ob);
-                    throw e;
+                    throw new RuntimeException(e);
                 }
             }
         }

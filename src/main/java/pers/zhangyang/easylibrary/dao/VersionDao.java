@@ -16,30 +16,39 @@ public class VersionDao extends DaoBase {
 
     public static final VersionDao INSTANCE = new VersionDao();
 
-    public int init() throws SQLException {
-        PreparedStatement ps;
-        ps = getConnection().prepareStatement("" +
-                "CREATE TABLE IF NOT EXISTS version (" +
-                "  big INT   ," +
-                "  middle INT   ," +
-                "  small INT  " +
-                ")");
-        return ps.executeUpdate();
+    public int init(){
+        try {
+            PreparedStatement ps;
+            ps = getConnection().prepareStatement("" +
+                    "CREATE TABLE IF NOT EXISTS version (" +
+                    "  big INT   ," +
+                    "  middle INT   ," +
+                    "  small INT  " +
+                    ")");
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     @Nullable
-    public VersionMeta get() throws SQLException {
+    public VersionMeta get(){
+        try {
         PreparedStatement ps;
         ps = getConnection().prepareStatement("select * from version");
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            return transform(rs);
+            return singleTransform(rs,VersionMeta.class);
         }
         return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public int insert(@NotNull VersionMeta version) throws SQLException {
+    public int insert(@NotNull VersionMeta version){
+        try {
         PreparedStatement ps;
         ps = getConnection().prepareStatement("insert into version (big,middle,small)" +
                 "values(?,?,?)");
@@ -47,16 +56,20 @@ public class VersionDao extends DaoBase {
         ps.setInt(2, version.getMiddle());
         ps.setInt(3, version.getSmall());
         return ps.executeUpdate();
+
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
     }
 
-    public int delete() throws SQLException {
+    public int delete(){
+        try {
         PreparedStatement ps;
         ps = getConnection().prepareStatement("delete from version ");
         return ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @NotNull
-    private VersionMeta transform(@NotNull ResultSet rs) throws SQLException {
-        return new VersionMeta(rs.getInt("big"), rs.getInt("middle"), rs.getInt("small"));
-    }
 }

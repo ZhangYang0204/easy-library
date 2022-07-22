@@ -12,9 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import pers.zhangyang.easylibrary.annotation.EventListener;
 import pers.zhangyang.easylibrary.base.ExecutorBase;
 import pers.zhangyang.easylibrary.base.GuiPage;
-import pers.zhangyang.easylibrary.executor.CorrectYamlExecutor;
-import pers.zhangyang.easylibrary.executor.HelpExecutor;
-import pers.zhangyang.easylibrary.executor.ReloadPluginExecutor;
+import pers.zhangyang.easylibrary.base.YamlBase;
 import pers.zhangyang.easylibrary.service.BaseService;
 import pers.zhangyang.easylibrary.service.impl.BaseServiceImpl;
 import pers.zhangyang.easylibrary.util.MessageUtil;
@@ -24,7 +22,6 @@ import pers.zhangyang.easylibrary.util.TransactionInvocationHandler;
 import pers.zhangyang.easylibrary.yaml.CompleterYaml;
 import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
 import pers.zhangyang.easylibrary.yaml.MessageYaml;
-import pers.zhangyang.easylibrary.yaml.SettingYaml;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,10 +30,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public abstract class EasyPlugin extends JavaPlugin {
     public static EasyPlugin instance;
@@ -44,33 +39,43 @@ public abstract class EasyPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        //加载Yaml类，自动init他们
         try {
-            SettingYaml.INSTANCE.init();
-            DatabaseYaml.INSTANCE.init();
-            CompleterYaml.INSTANCE.init();
-            MessageYaml.INSTANCE.init();
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-            this.setEnabled(false);
+            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary模板.yml");
+            YamlConfiguration yamlConfiguration = new YamlConfiguration();
+            assert in != null;
+            InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
+            yamlConfiguration.load(inputStreamReader);
+            List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("yamlPackage"));
+            for (Class c : classList) {
+                if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
+                    continue;
+                }
+                if (!YamlBase.class.isAssignableFrom(c)) {
+                    continue;
+                }
+                Class.forName(c.getName());
+            }
+        } catch (IOException | InvalidConfigurationException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
-        BaseService baseService= (BaseService) new TransactionInvocationHandler(BaseServiceImpl.INSTANCE).getProxy();
 
         //必须先open再init
         onOpen();
-        try {
-            baseService.initDatabase();
-        } catch (SQLException | IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-            this.setEnabled(false);
-        }
-        try {
 
-            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
-            YamlConfiguration yamlConfiguration=new YamlConfiguration();
+        //自动初始化全部的数据库
+        BaseService baseService = (BaseService) new TransactionInvocationHandler(new BaseServiceImpl()).getProxy();
+        baseService.initDatabase();
+
+        //自动注册有注解的监听器
+        try {
+            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary模板.yml");
+            YamlConfiguration yamlConfiguration = new YamlConfiguration();
+            assert in != null;
             InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
             yamlConfiguration.load(inputStreamReader);
-            List<Class> classList = ResourceUtil.getClasssFromJarFile(yamlConfiguration.getStringList("listenerPackage"));
+            List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("listenerPackage"));
             for (Class c : classList) {
                 if (!c.isAnnotationPresent(EventListener.class)) {
                     continue;
@@ -84,22 +89,24 @@ public abstract class EasyPlugin extends JavaPlugin {
                 Listener listener = (Listener) c.newInstance();
                 Bukkit.getPluginManager().registerEvents(listener, EasyPlugin.instance);
             }
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-            this.setEnabled(false);
+        } catch (InstantiationException | IllegalAccessException | IOException | InvalidConfigurationException e) {
+            throw new RuntimeException(e);
         }
 
+        //通知版本信息
         NotifyVersionUtil.notifyVersion(Bukkit.getConsoleSender());
+
+        //提示插件标志
         MessageUtil.sendMessageTo(Bukkit.getConsoleSender(), MessageYaml.INSTANCE.getStringList("message.chat.enablePlugin"));
     }
 
 
     @Override
     public void onDisable() {
+        //关闭所有Gui
         GuiPage.revoke();
         onClose();
+        //提示插件关闭
         MessageUtil.sendMessageTo(Bukkit.getConsoleSender(), MessageYaml.INSTANCE.getStringList("message.chat.disablePlugin"));
     }
 
@@ -107,6 +114,7 @@ public abstract class EasyPlugin extends JavaPlugin {
 
     public abstract void onClose();
 
+    //自动调度全部命令
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
@@ -116,14 +124,14 @@ public abstract class EasyPlugin extends JavaPlugin {
         String[] argument = new String[args.length - 1];
         System.arraycopy(args, 1, argument, 0, args.length - 1);
 
-
         try {
 
-            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
-            YamlConfiguration yamlConfiguration=new YamlConfiguration();
+            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary模板.yml");
+            YamlConfiguration yamlConfiguration = new YamlConfiguration();
+            assert in != null;
             InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
             yamlConfiguration.load(inputStreamReader);
-            List<Class> classList = ResourceUtil.getClasssFromJarFile(yamlConfiguration.getStringList("executorPackage"));
+            List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("executorPackage"));
             for (Class c : classList) {
                 if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
                     continue;
@@ -132,13 +140,13 @@ public abstract class EasyPlugin extends JavaPlugin {
                     continue;
                 }
 
-                Constructor<ExecutorBase> constructor=c.getDeclaredConstructor(CommandSender.class,String.class,String[].class);
+                Constructor<ExecutorBase> constructor = c.getDeclaredConstructor(CommandSender.class, String.class, String[].class);
                 constructor.setAccessible(true);
-                ExecutorBase executorBase =  constructor.newInstance(sender,args[0],argument);
-                String name=executorBase.getClass().getName();
-                name=name.substring(0,name.length()-8);
-                name=name.split("\\.")[name.split("\\.").length-1];
-                if (!name.equalsIgnoreCase(args[0])){
+                ExecutorBase executorBase = constructor.newInstance(sender, args[0], argument);
+                String name = executorBase.getClass().getName();
+                name = name.substring(0, name.length() - 8);
+                name = name.split("\\.")[name.split("\\.").length - 1];
+                if (!name.equalsIgnoreCase(args[0])) {
                     continue;
                 }
                 executorBase.process();
@@ -150,11 +158,13 @@ public abstract class EasyPlugin extends JavaPlugin {
         return true;
     }
 
+
+    //自动提示命令
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
-        if (args.length==0){
+        if (args.length == 0) {
             return new ArrayList<>();
         }
 
@@ -167,7 +177,7 @@ public abstract class EasyPlugin extends JavaPlugin {
 
         if (args.length == 1) {
             list = CompleterYaml.INSTANCE.getStringList("completer." + key);
-            String ll = args[args.length-1].toLowerCase();
+            String ll = args[args.length - 1].toLowerCase();
             if (list != null) {
                 list.removeIf(k -> !k.toLowerCase().startsWith(ll));
             }
@@ -176,13 +186,13 @@ public abstract class EasyPlugin extends JavaPlugin {
             }
             return list;
         }
-        if (!sender.hasPermission(EasyPlugin.instance.getName()+"."+args[0])) {
+        if (!sender.hasPermission(EasyPlugin.instance.getName() + "." + args[0])) {
             return new ArrayList<>();
         }
 
         char[] chars = args[0].toCharArray();
-        if (chars.length!=0){
-        chars[0] =  (Character.toUpperCase(chars[0]));
+        if (chars.length != 0) {
+            chars[0] = (Character.toUpperCase(chars[0]));
         }
         key.append(chars);
 
@@ -191,7 +201,7 @@ public abstract class EasyPlugin extends JavaPlugin {
             key.append("$");
         }
         list = CompleterYaml.INSTANCE.getStringList("completer." + key);
-        String ll = args[args.length-1].toLowerCase();
+        String ll = args[args.length - 1].toLowerCase();
         if (list != null) {
             list.removeIf(k -> !k.toLowerCase().startsWith(ll));
         }

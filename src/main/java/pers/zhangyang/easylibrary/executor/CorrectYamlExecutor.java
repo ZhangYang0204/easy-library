@@ -29,11 +29,11 @@ public class CorrectYamlExecutor extends ExecutorBase {
     protected void run() {
 
         try {
-            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
+            InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary模板.yml");
             YamlConfiguration yamlConfiguration=new YamlConfiguration();
             InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
             yamlConfiguration.load(inputStreamReader);
-            List<Class> classList = ResourceUtil.getClasssFromJarFile(yamlConfiguration.getStringList("yamlPackage"));
+            List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("yamlPackage"));
             for (Class c : classList) {
                 if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
                     continue;
@@ -44,11 +44,8 @@ public class CorrectYamlExecutor extends ExecutorBase {
                 YamlBase yamlBase = (YamlBase) c.getField("INSTANCE").get(c);
                 yamlBase.correct();
             }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-            return;
+        } catch (NoSuchFieldException | IllegalAccessException | IOException | InvalidConfigurationException e) {
+            throw new RuntimeException(e);
         }
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.correctYaml"));
     }
