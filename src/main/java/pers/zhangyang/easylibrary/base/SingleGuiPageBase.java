@@ -21,13 +21,15 @@ public abstract class SingleGuiPageBase implements GuiPage {
         }
         this.viewer=viewer;
         this.backPage =backPage;
-        refresh();
     }
     public void send(){
         refresh();
     }
     public abstract void refresh();
     public void backPage() throws NotExistBackPageException {
+        if (backPage==null){
+        throw new NotExistBackPageException();
+    }
         backPage.send();
     }
     @NotNull
