@@ -25,22 +25,18 @@ public abstract class MultipleGuiPageBase implements GuiPage {
         this.viewer=viewer;
         this.pageIndex=0;
         this.backPage = backPage;
-        refresh();
+        send();
     }
-    public void send(){
-        refresh();
-        viewer.openInventory(inventory);
-    }
-    public abstract void refresh();
+    public abstract void send();
 
     public  void nextPage() throws NotExistNextException {
         this.pageIndex++;
-        refresh();
+        send();
     }
 
     public  void previousPage() throws NotExistPreviousException {
         this.pageIndex--;
-        refresh();
+        send();
     }
 
     public void backPage() throws  NotExistBackPageException{
