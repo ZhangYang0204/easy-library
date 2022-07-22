@@ -4,8 +4,10 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import pers.zhangyang.easylibrary.base.DaoBase;
 import pers.zhangyang.easylibrary.dao.VersionDao;
+import pers.zhangyang.easylibrary.meta.VersionMeta;
 import pers.zhangyang.easylibrary.service.CommandService;
 import pers.zhangyang.easylibrary.util.ResourceUtil;
+import pers.zhangyang.easylibrary.util.VersionUtil;
 import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
 
 import java.io.IOException;
@@ -20,7 +22,13 @@ public class CommandServiceImpl implements CommandService {
     @Override
     public void initDatabase() {
 
-        new VersionDao().init();
+        VersionDao versionDao=new VersionDao();
+        versionDao.init();
+        if (versionDao.get()==null){
+            versionDao.delete();
+            versionDao.insert(new VersionMeta(VersionUtil.getPluginBigVersion(),VersionUtil.getPluginMiddleVersion(),
+                    VersionUtil.getPluginSmallVersion()));
+        }
         InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
         YamlConfiguration yamlConfiguration=new YamlConfiguration();
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
