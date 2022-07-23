@@ -1,6 +1,7 @@
 package pers.zhangyang.easylibrary.base;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,9 +16,11 @@ import java.util.List;
 
 public abstract class InfiniteInputListenerBase implements Listener {
     protected Player player;
+    protected OfflinePlayer owner;
     protected GuiPage previousPage;
     protected List<String> messageList =new ArrayList<>();
-    public InfiniteInputListenerBase(Player player, GuiPage previousPage) {
+    public InfiniteInputListenerBase(Player player,OfflinePlayer owner, GuiPage previousPage) {
+        this.owner=owner;
         this.player = player;
         this.previousPage = previousPage;
         Bukkit.getPluginManager().registerEvents(this, EasyPlugin.instance);
@@ -34,7 +37,7 @@ public abstract class InfiniteInputListenerBase implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    previousPage.send();
+                    previousPage.refresh();
                 }
             }.runTask(EasyPlugin.instance);
             return;
@@ -43,8 +46,8 @@ public abstract class InfiniteInputListenerBase implements Listener {
             messageList.add(event.getMessage());
             return;
         }
-            AsyncPlayerChatEvent.getHandlerList().unregister(EasyPlugin.instance);
-            PlayerQuitEvent.getHandlerList().unregister(EasyPlugin.instance);
+        AsyncPlayerChatEvent.getHandlerList().unregister(this);
+        PlayerQuitEvent.getHandlerList().unregister(this);
             new BukkitRunnable() {
                 @Override
                 public void run() {

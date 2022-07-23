@@ -2,6 +2,7 @@ package pers.zhangyang.easylibrary.base;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
@@ -15,13 +16,15 @@ public abstract class MultipleGuiPageBase implements GuiPage {
     protected Player viewer;
     protected int pageIndex;
     protected GuiPage backPage;
+    protected OfflinePlayer owner;
 
-    public MultipleGuiPageBase(@Nullable String title,@NotNull Player viewer,@Nullable GuiPage backPage){
+    public MultipleGuiPageBase(@Nullable String title,@NotNull Player viewer,@Nullable GuiPage backPage,OfflinePlayer owner){
         if (title!=null){
             inventory= Bukkit.createInventory(this,54, ChatColor.translateAlternateColorCodes('&', title));
         }else {
             inventory=Bukkit.createInventory(this,54);
         }
+        this.owner=owner;
         this.viewer=viewer;
         this.pageIndex=0;
         this.backPage = backPage;
@@ -53,7 +56,14 @@ public abstract class MultipleGuiPageBase implements GuiPage {
     }
 
     @NotNull
+    @Override
     public Player getViewer() {
         return viewer;
+    }
+
+    @NotNull
+    @Override
+    public OfflinePlayer getOwner() {
+        return owner;
     }
 }
