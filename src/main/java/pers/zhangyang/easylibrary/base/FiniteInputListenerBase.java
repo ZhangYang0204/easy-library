@@ -8,10 +8,29 @@ import org.bukkit.scheduler.BukkitRunnable;
 import pers.zhangyang.easylibrary.EasyPlugin;
 import pers.zhangyang.easylibrary.yaml.MessageYaml;
 
+/**
+ * 有限参数的Gui交互输入类的父类
+ */
 public abstract class FiniteInputListenerBase implements Listener {
-    Player player;
-    GuiPage previousPage;
-    String[] messages;
+    /**
+     * 交互的玩家
+     */
+    protected Player player;
+    /**
+     * 返回哪一页
+     */
+    protected GuiPage previousPage;
+    /**
+     * 交互的信息
+     */
+    protected String[] messages;
+
+    /**
+     *
+     * @param player 交互的玩家
+     * @param previousPage 交互后返回的Gui
+     * @param sequence 交互的信息的数量
+     */
     public FiniteInputListenerBase(Player player, GuiPage previousPage, int sequence) {
         this.player = player;
         this.previousPage = previousPage;
@@ -20,6 +39,10 @@ public abstract class FiniteInputListenerBase implements Listener {
     }
 
 
+    /**
+     * 处理玩家输入取消事件，取消的触发内容在message.input.cancel中指定
+     * @param event
+     */
     public void on(AsyncPlayerChatEvent event){
         if (!event.getPlayer().equals(player)){
             return;
@@ -49,5 +72,8 @@ public abstract class FiniteInputListenerBase implements Listener {
 
     }
 
+    /**
+     * 当交互完后，执行该方法的内容
+     */
     public abstract void run();
 }

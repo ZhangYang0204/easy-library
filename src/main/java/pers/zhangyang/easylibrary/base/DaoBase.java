@@ -12,11 +12,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 所有Dao的父类，继承该类的Dao类会在插件开启的时候自动调用init方法，会在执行重载命令的时候自动调用init方法，并且还要在easyLibrary.yml指定的包下
+ */
 public abstract class DaoBase {
+    /**
+     * 里面填写创建数据库表的语句
+     * @return sql语句执行成功影响的条数
+     */
     public abstract int init();
 
+    /**
+     * 一个连接池，存放了每个线程对应的Connection实例
+     */
     private static final ThreadLocal<Connection> t = new ThreadLocal<>();
 
+    /**
+     * 获得当前线程的Connection实例，每个线程使用此方法获得的实例不相同，用此方法得到的实例无需释放任何资源，任由gc回收
+     * 当线程的实例被关闭了则自动创建一个新的
+     * @return
+     */
     public static Connection getConnection(){
         Connection connection = t.get();
         try {
@@ -36,7 +51,13 @@ public abstract class DaoBase {
     }
 
 
-    //将查询结果的第一条数据转换为指定类型的对象
+    /**
+     * 自动将ResultSet的第一条记录转化
+     * @param rs 查询到的ResultSet
+     * @param cls 需要转化为什么类的class对象
+     * @param <T> 转化的结果
+     * @return
+     */
     @Nullable
     public static <T> T singleTransform(ResultSet rs, Class<T> cls) {
         try {
@@ -60,7 +81,14 @@ public abstract class DaoBase {
         }
         return null;
     }
-    //将查询结果所有数据转换为指定类型的对象
+
+    /**
+     * 自动将ResultSet转化为List
+     * @param rs 查询到的ResultSet
+     * @param cls 需要转化为什么类的class对象
+     * @param <T> 转化的结果
+     * @return
+     */
     @NotNull
     public static <T> List<T> multipleTransform(ResultSet rs, Class<T> cls) {
         List<T> list=new ArrayList<>();
