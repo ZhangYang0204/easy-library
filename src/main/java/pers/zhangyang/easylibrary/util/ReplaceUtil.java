@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class ReplaceUtil {
 
+    //驼峰转化为库的名字格式
     public static String replaceToRepositoryName(String oldName){
 
         char[] pluginNameChars= oldName.toCharArray();
@@ -42,6 +43,36 @@ public class ReplaceUtil {
        return String.valueOf(pluginNameChars);
 
     }
+
+    public static String replaceToDatabaseTableName(String oldName){
+
+        char[] pluginNameChars= oldName.toCharArray();
+        if (pluginNameChars[0]>=65&&pluginNameChars[0]<=90) {
+            pluginNameChars[0] += 32;
+        }
+        boolean end=false;
+        while (!end){
+            for (int i=0;i< pluginNameChars.length;i++){
+                if (pluginNameChars[i]>=65&&pluginNameChars[i]<=90){
+                    StringBuilder stringBuilder=new StringBuilder(String.valueOf(pluginNameChars));
+                    stringBuilder.replace(i,i+1, String.valueOf((char)( pluginNameChars[i]+32)));
+                    stringBuilder.insert(i,"_");
+                    pluginNameChars=stringBuilder.toString().toCharArray();
+                    break;
+                }
+            }
+            end=true;
+            for (char pluginNameChar : pluginNameChars) {
+                if (pluginNameChar >= 65 && pluginNameChar <= 90) {
+                    end = false;
+                    break;
+                }
+            }
+        }
+        return String.valueOf(pluginNameChars);
+
+    }
+
 
     public static void formatLore(@NotNull ItemStack itemStack, @NotNull String pattern, @Nullable List<String> replaceTo) {
         ItemMeta itemMeta = itemStack.getItemMeta();

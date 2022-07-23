@@ -2,6 +2,7 @@ package pers.zhangyang.easylibrary.base;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pers.zhangyang.easylibrary.util.ReplaceUtil;
 import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
 
 import java.lang.reflect.Field;
@@ -72,7 +73,7 @@ public abstract class DaoBase {
                     //设置忽略访问校验
                     f.setAccessible(true);
                     //为属性设置内容
-                    f.set(obj, rs.getObject(f.getName()));
+                    f.set(obj, rs.getObject(ReplaceUtil.replaceToDatabaseTableName(f.getName())));
                 }
                 return obj;
             }
@@ -104,7 +105,7 @@ public abstract class DaoBase {
                     //设置忽略访问校验
                     f.setAccessible(true);
                     //为属性设置内容
-                    f.set(obj, rs.getObject(f.getName()));
+                    f.set(obj, rs.getObject(ReplaceUtil.replaceToDatabaseTableName(f.getName())));
                 }
                 list.add(obj);//添加到集合
             }

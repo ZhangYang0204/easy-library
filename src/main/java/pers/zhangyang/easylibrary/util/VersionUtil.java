@@ -21,30 +21,30 @@ public class VersionUtil {
     public static int getPluginSmallVersion() {
         return Integer.parseInt(EasyPlugin.instance.getDescription().getVersion().split("\\.")[2]);
     }
-    public static boolean isNewerThan(int currentBig,int currentMiddle,int currentSmall,int big,int middle,int small){
-        if (currentBig<big){
-            return false;
-        }
+    public static boolean isOlderThan(int currentBig,int currentMiddle,int currentSmall,int big,int middle,int small){
         if (currentBig>big){
-            return true;
-        }
-        if (currentMiddle<middle){
             return false;
+        }
+        if (currentBig<big){
+            return true;
         }
         if (currentMiddle>middle){
-            return true;
-        }
-
-        return currentSmall > small;
-    }
-    public static boolean isNewerThan(int currentBig,int currentMiddle,int big,int middle){
-        if (currentBig<big){
             return false;
         }
-        if (currentBig>big){
+        if (currentMiddle<middle){
             return true;
         }
 
-        return currentMiddle > middle;
+        return currentSmall < small;
+    }
+    public static boolean isOlderThan(int currentBig,int currentMiddle,int big,int middle){
+        if (currentBig>big){
+            return false;
+        }
+        if (currentBig<big){
+            return true;
+        }
+
+        return currentMiddle < middle;
     }
 }
