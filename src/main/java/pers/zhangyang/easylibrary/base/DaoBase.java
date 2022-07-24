@@ -73,7 +73,13 @@ public abstract class DaoBase {
                     //设置忽略访问校验
                     f.setAccessible(true);
                     //为属性设置内容
-                    f.set(obj, rs.getObject(ReplaceUtil.replaceToDatabaseTableName(f.getName())));
+
+                    if (f.getType().isAssignableFrom(boolean.class)) {
+                        f.set(obj, rs.getBoolean(ReplaceUtil.replaceToDatabaseTableName(f.getName())));
+                    }else {
+                        f.set(obj, rs.getObject(ReplaceUtil.replaceToDatabaseTableName(f.getName())));
+                    }
+
                 }
                 return obj;
             }
@@ -105,13 +111,17 @@ public abstract class DaoBase {
                     //设置忽略访问校验
                     f.setAccessible(true);
                     //为属性设置内容
-                    f.set(obj, rs.getObject(ReplaceUtil.replaceToDatabaseTableName(f.getName())));
+                    if (f.getType().isAssignableFrom(boolean.class)) {
+                        f.set(obj, rs.getBoolean(ReplaceUtil.replaceToDatabaseTableName(f.getName())));
+                    }else {
+                        f.set(obj, rs.getObject(ReplaceUtil.replaceToDatabaseTableName(f.getName())));
+                    }
                 }
                 list.add(obj);//添加到集合
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return list;
     }

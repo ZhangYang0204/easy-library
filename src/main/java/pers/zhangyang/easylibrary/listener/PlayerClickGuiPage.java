@@ -12,9 +12,15 @@ import org.bukkit.inventory.ItemStack;
 import pers.zhangyang.easylibrary.annotation.EventListener;
 import pers.zhangyang.easylibrary.annotation.GuiDiscreteButtonHandler;
 import pers.zhangyang.easylibrary.annotation.GuiSerialButtonHandler;
+import pers.zhangyang.easylibrary.base.BackAble;
 import pers.zhangyang.easylibrary.base.GuiPage;
+import pers.zhangyang.easylibrary.base.MultipleGuiPageBase;
+import pers.zhangyang.easylibrary.exception.NotExistNextPageException;
+import pers.zhangyang.easylibrary.exception.NotExistPreviousPageException;
+import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.ResourceUtil;
 import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
+import pers.zhangyang.easylibrary.yaml.MessageYaml;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,12 +43,43 @@ public class PlayerClickGuiPage implements Listener {
         InventoryHolder inventoryHolder = event.getInventory().getHolder();
         int slot = event.getRawSlot();
         ItemStack itemStack = event.getCurrentItem();
-        if (inventoryHolder instanceof GuiPage) {
-            event.setCancelled(true);
-        }
         if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
             return;
         }
+
+
+        //点击到GuiPage子类的操作
+        if (inventoryHolder instanceof GuiPage) {
+            event.setCancelled(true);
+            //返回
+            if (inventoryHolder instanceof BackAble && slot==49){
+                BackAble backAble= (BackAble) inventoryHolder;
+                backAble.back();
+            }
+            //下一页
+            if (inventoryHolder instanceof MultipleGuiPageBase && slot==53){
+                MultipleGuiPageBase multipleGuiPageBase= (MultipleGuiPageBase) inventoryHolder;
+                try {
+                    multipleGuiPageBase.nextPage();
+                } catch (NotExistNextPageException e) {
+                    MessageUtil.sendMessageTo(event.getWhoClicked(), MessageYaml.INSTANCE.getStringList("message.chat.notExistNextPage"));
+                }
+            }
+            //上一页
+            if (inventoryHolder instanceof MultipleGuiPageBase && slot==45){
+                MultipleGuiPageBase multipleGuiPageBase= (MultipleGuiPageBase) inventoryHolder;
+                try {
+                    multipleGuiPageBase.previousPage();
+                } catch (NotExistPreviousPageException e) {
+                    MessageUtil.sendMessageTo(event.getWhoClicked(), MessageYaml.INSTANCE.getStringList("message.chat.notExistPreviousPage"));
+                }
+            }
+        }
+
+
+
+
+        //按钮被点击注解操作
         InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
         YamlConfiguration yamlConfiguration=new YamlConfiguration();
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
@@ -64,8 +101,6 @@ public class PlayerClickGuiPage implements Listener {
 
             for (Method m : methods) {
                 if (m.isAnnotationPresent(GuiDiscreteButtonHandler.class)) {
-
-
                     GuiDiscreteButtonHandler guiDiscreteButtonHandler = m.getAnnotation(GuiDiscreteButtonHandler.class);
                     if (!guiDiscreteButtonHandler.guiPage().isInstance(inventoryHolder)) {
                         continue;

@@ -8,8 +8,8 @@ import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pers.zhangyang.easylibrary.exception.NotExistBackPageException;
-import pers.zhangyang.easylibrary.exception.NotExistNextException;
-import pers.zhangyang.easylibrary.exception.NotExistPreviousException;
+import pers.zhangyang.easylibrary.exception.NotExistNextPageException;
+import pers.zhangyang.easylibrary.exception.NotExistPreviousPageException;
 
 public abstract class MultipleGuiPageBase implements GuiPage {
     protected Inventory inventory;
@@ -32,12 +32,12 @@ public abstract class MultipleGuiPageBase implements GuiPage {
     public abstract void send();
     public abstract void refresh();
 
-    public  void nextPage() throws NotExistNextException {
+    public  void nextPage() throws NotExistNextPageException {
         this.pageIndex++;
         refresh();
     }
 
-    public  void previousPage() throws NotExistPreviousException {
+    public  void previousPage() throws NotExistPreviousPageException {
         this.pageIndex--;
         refresh();
     }

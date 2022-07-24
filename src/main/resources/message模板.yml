@@ -23,3 +23,8 @@ message:
       - "&a插件开启"
     disablePlugin:
       - "&c插件关闭"
+
+    notExistNextPage:
+      - "&c没有下一页了"
+    notExistPreviousPage:
+      - "&c没有上一页了"
