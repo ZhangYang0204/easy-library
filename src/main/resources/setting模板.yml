@@ -1,5 +1,9 @@
 setting:
 
-  #使用哪一套语言，目前仅支持default、english a ba
-  ##Which language is used? Currently, only default and English are supported
+  #使用哪一套语言 可以在这里看到可选的语言https://github.com/ZhangYang0204/easy-library/tree/master/src/main/resources/display
+  #你也可以在https://github.com/ZhangYang0204/easy-library/tree/master/src/main/resources/display上传你使用的语言
+  #此项修改后只有服务器重启或者使用其他插件重新安装此插件后才会生效
+  #Which language is used? If you want to find what you can use,please go to https://github.com/ZhangYang0204/easy-library/tree/master/src/main/resources/display
+  #You can also go to https://github.com/ZhangYang0204/easy-library/tree/master/src/main/resources/display to upload your language
+  #This modification will not take effect until the server is restarted or the plugin is reinstalled by other plugin
   display: "default"
