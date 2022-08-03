@@ -68,6 +68,7 @@ public abstract class FiniteInputListenerBase implements Listener {
         for (int i = 0; i < messages.length; i++) {
             if (messages[i] == null) {
                 messages[i] = event.getMessage();
+                break;
             }
         }
         if (messages[messages.length - 1] == null) {
