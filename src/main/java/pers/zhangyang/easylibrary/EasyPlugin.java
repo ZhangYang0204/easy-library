@@ -47,10 +47,10 @@ public abstract class EasyPlugin extends JavaPlugin {
         instance = this;
         //加载Yaml类，自动init他们
         try {
+            SettingYaml.INSTANCE.init();
             CompleterYaml.INSTANCE.init();
             DatabaseYaml.INSTANCE.init();
             MessageYaml.INSTANCE.init();
-            SettingYaml.INSTANCE.init();
             InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
             YamlConfiguration yamlConfiguration = new YamlConfiguration();
             assert in != null;
