@@ -35,6 +35,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public abstract class EasyPlugin extends JavaPlugin {
                 }
                 Class.forName(c.getName());
             }
-        } catch (IOException | InvalidConfigurationException | ClassNotFoundException e) {
+        } catch (IOException | InvalidConfigurationException | ClassNotFoundException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
 
@@ -101,7 +102,7 @@ public abstract class EasyPlugin extends JavaPlugin {
                 Listener listener = (Listener) c.newInstance();
                 Bukkit.getPluginManager().registerEvents(listener, EasyPlugin.instance);
             }
-        } catch (InstantiationException | IllegalAccessException | IOException | InvalidConfigurationException e) {
+        } catch (InstantiationException | IllegalAccessException | IOException | InvalidConfigurationException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
 
@@ -175,8 +176,8 @@ public abstract class EasyPlugin extends JavaPlugin {
                 }
                 executorBase.process();
             }
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | InvalidConfigurationException | URISyntaxException e) {
+            throw new RuntimeException(e);
         }
 
         return true;

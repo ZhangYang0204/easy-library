@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import pers.zhangyang.easylibrary.exception.FailureDeleteFileException;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -15,8 +16,8 @@ import java.util.jar.JarFile;
 public class ResourceUtil {
 
 
-    public static List<Class> getClassesFromJarFile(List<String> packageList) {
-        String jarPaht = ResourceUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+    public static List<Class> getClassesFromJarFile(List<String> packageList) throws URISyntaxException {
+        String jarPaht = ResourceUtil.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
         List<Class> clazzs = new ArrayList<>();
 
         JarFile jarFile;

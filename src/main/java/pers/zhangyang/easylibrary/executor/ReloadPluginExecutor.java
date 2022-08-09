@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Modifier;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
@@ -72,7 +73,7 @@ public class ReloadPluginExecutor {
                 YamlBase yamlBase = (YamlBase) c.getField("INSTANCE").get(c);
                 yamlBase.init();
             }
-        } catch (NoSuchFieldException | IllegalAccessException | IOException | InvalidConfigurationException e) {
+        } catch (NoSuchFieldException | IllegalAccessException | IOException | InvalidConfigurationException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
         GuiPage.revoke();

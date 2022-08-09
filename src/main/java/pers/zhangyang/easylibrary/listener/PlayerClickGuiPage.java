@@ -28,6 +28,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,10 +87,14 @@ public class PlayerClickGuiPage implements Listener {
         try {
             yamlConfiguration.load(inputStreamReader);
         } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-            return;
+            throw new RuntimeException(e);
         }
-        List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("guiButtonHandlerPackage"));
+        List<Class> classList = null;
+        try {
+            classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("guiButtonHandlerPackage"));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
         for (Class c : classList) {
             if (!c.isAnnotationPresent(EventListener.class)){
                 continue;

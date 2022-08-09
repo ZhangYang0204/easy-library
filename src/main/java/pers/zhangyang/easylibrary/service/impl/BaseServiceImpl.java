@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Modifier;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -37,7 +38,12 @@ public class BaseServiceImpl implements BaseService {
         } catch (IOException | InvalidConfigurationException e) {
             throw new RuntimeException(e);
         }
-        List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("daoPackage"));
+        List<Class> classList = null;
+        try {
+            classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("daoPackage"));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
         for (Class c : classList) {
             if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
                 continue;
