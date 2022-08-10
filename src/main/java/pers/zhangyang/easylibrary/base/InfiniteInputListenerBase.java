@@ -51,8 +51,8 @@ public abstract class InfiniteInputListenerBase implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    previousPage.refresh();
                     InfiniteInputListenerBase.this.run();
+                    previousPage.refresh();
                 }
             }.runTask(EasyPlugin.instance);
 

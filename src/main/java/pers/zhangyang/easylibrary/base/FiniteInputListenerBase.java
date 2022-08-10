@@ -80,8 +80,8 @@ public abstract class FiniteInputListenerBase implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                previousPage.refresh();
                 FiniteInputListenerBase.this.run();
+                previousPage.refresh();
             }
         }.runTask(EasyPlugin.instance);
     }
