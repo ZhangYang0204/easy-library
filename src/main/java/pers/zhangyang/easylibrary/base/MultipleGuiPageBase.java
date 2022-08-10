@@ -42,12 +42,6 @@ public abstract class MultipleGuiPageBase implements GuiPage {
         refresh();
     }
 
-    public void backPage() throws  NotExistBackPageException{
-        if (backPage==null){
-            throw new NotExistBackPageException();
-        }
-        backPage.send();
-    }
 
     @NotNull
     @Override

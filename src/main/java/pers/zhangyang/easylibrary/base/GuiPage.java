@@ -18,8 +18,6 @@ public interface GuiPage extends InventoryHolder {
     @NotNull
     OfflinePlayer getOwner();
 
-    void backPage() throws NotExistBackPageException;
-
     static void revoke() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (p.getOpenInventory().getTopInventory().getHolder() instanceof GuiPage) {

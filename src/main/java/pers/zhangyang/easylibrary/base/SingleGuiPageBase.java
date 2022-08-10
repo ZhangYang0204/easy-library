@@ -29,12 +29,6 @@ public abstract class SingleGuiPageBase implements GuiPage {
         refresh();
     }
     public abstract void refresh();
-    public void backPage() throws NotExistBackPageException {
-        if (backPage==null){
-        throw new NotExistBackPageException();
-    }
-        backPage.send();
-    }
     @NotNull
     @Override
     public Inventory getInventory() {
