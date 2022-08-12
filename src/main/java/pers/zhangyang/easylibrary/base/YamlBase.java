@@ -10,6 +10,8 @@ import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,10 +65,35 @@ public abstract class YamlBase {
         }
         //加载Yaml
         this.yamlConfiguration.load(file);
-        InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream(filePath);
-        if (in == null) {
-            throw new IOException();
+        InputStream in = YamlBase.class.getClassLoader().getResourceAsStream(filePath);
+        if (this.filePath.startsWith("display/")){
+            List<String> argList=new ArrayList<>();
+            String[] after=this.filePath.split("/");
+            for (String s:after){
+                if (!s.contains("\\")){
+                    argList.add(s);
+                    continue;
+                }
+                argList.addAll(Arrays.asList(s.split("\\\\")));
+            }
+            String defaultFilePath="";
+            for (int i=0;i<argList.size();i++){
+                if (i==1){
+                    defaultFilePath=defaultFilePath+"default/";
+                    continue;
+                }
+                if (i!=argList.size()-1){
+                    defaultFilePath=defaultFilePath+argList.get(i)+"/";
+                }else {
+                    defaultFilePath=defaultFilePath+argList.get(i);
+                }
+            }
+
+            in=YamlBase.class.getClassLoader().getResourceAsStream(defaultFilePath);
         }
+        if (in == null) {
+                throw new IOException();
+            }
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
         this.backUpConfiguration.load(inputStreamReader);
 
