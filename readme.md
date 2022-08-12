@@ -19,7 +19,7 @@
 
 # 使用方法
 * 必须的resource里创建Database.yml、SettingYaml、EasyLibrary.yml、Completer.yml、MessageYaml
-* resource里不许不能出现含有display的文件名和目录名，因为display被用于YamlBase中backUpConfiguration，详情请看代码
+* resource里不许不能出现相对路径是文件display/开头的路径，因为display/被用于YamlBase中backUpConfiguration，详情请看代码
 * 命令自动补全需要插件主类继承EasyPlugin，继承后只需要在Completer.yml中添加completer.输入内容即可补全输入后的提示内容，可变参数用$代替，小驼峰命名
 * 帮助指令只需要在Message.yml里的help内容填上即可
 * 自动提示版本信息需要一个github仓库，仓库名为插件名，单词间用-隔开，并且在仓库的根目录创建index.html，在第一行写入最新版本即可
