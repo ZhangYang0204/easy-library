@@ -17,6 +17,10 @@ import java.util.List;
 public class ItemStackUtil {
 
 
+    /**
+     *
+     * @return 玩家头颅物品
+     */
     @NotNull
     public static ItemStack getPlayerSkullItem() {
         if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil.getMinecraftMiddleVersion() < 13) {
@@ -26,7 +30,9 @@ public class ItemStackUtil {
         }
     }
 
-    //把itemstack的name  lore  customdata  移植到target里  itemflag添加
+    /**
+     *把itemStack的name  lore  customModelData  移植到target里  把itemStack有的itemFlag直接添加到target里
+     */
     public static void apply(@NotNull ItemStack itemStack, @NotNull ItemStack target) throws NotApplicableException {
         ItemMeta itemMeta = itemStack.getItemMeta();
         ItemMeta targetMeta = target.getItemMeta();
