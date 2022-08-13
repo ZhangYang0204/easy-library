@@ -255,7 +255,12 @@ public abstract class YamlBase {
         Double pitch = getDoubleDefault(path + ".pitch");
         String worldName = getStringDefault(path + ".worldName");
         World world = Bukkit.getWorld(worldName);
-        return new Location(world == null ? Bukkit.getWorld("world") : world, x, y, z, yaw.floatValue(), pitch.floatValue());
+        if (world==null){
+            worldName=backUpConfiguration.getString(path + ".worldName");
+            assert worldName != null;
+            world = Bukkit.getWorld(worldName);
+        }
+        return new Location( world, x, y, z, yaw.floatValue(), pitch.floatValue());
     }
 
     @Nullable
