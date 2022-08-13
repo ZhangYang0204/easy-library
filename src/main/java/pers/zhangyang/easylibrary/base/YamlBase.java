@@ -1,11 +1,15 @@
 package pers.zhangyang.easylibrary.base;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Content;
+import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.*;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -398,4 +402,24 @@ public abstract class YamlBase {
             }
         }
     }
+    @NotNull
+    public String getNonemptyStringDefault(@NotNull String path) {
+        String display = getStringDefault(path);
+        if (display.isEmpty()) {
+            display = backUpConfiguration.getString(path);
+        }
+        assert display != null;
+        return display;
+    }
+    @Nullable
+    public String getNonemptyString(@NotNull String path) {
+        String display = getString(path);
+        if (display!=null&&display.isEmpty()) {
+            display = backUpConfiguration.getString(path);
+        }
+        assert display != null;
+        return display;
+    }
+
+
 }
