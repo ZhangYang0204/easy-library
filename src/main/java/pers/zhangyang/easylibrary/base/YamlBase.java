@@ -271,14 +271,13 @@ public abstract class YamlBase {
         Double yaw = getDouble(path + ".yaw");
         Double pitch = getDouble(path + ".pitch");
         String worldName = getString(path + ".worldName");
-        if (x == null || y == null || z == null || yaw == null || pitch == null) {
+        if (worldName==null||x == null || y == null || z == null || yaw == null || pitch == null) {
             return null;
         }
-        World world = null;
-        if (worldName != null) {
-            world = Bukkit.getWorld(worldName);
+        World world = Bukkit.getWorld(worldName);
+        if (world==null){
+            return null;
         }
-
         return new Location(world, x, y, z, yaw.floatValue(), pitch.floatValue());
     }
 
