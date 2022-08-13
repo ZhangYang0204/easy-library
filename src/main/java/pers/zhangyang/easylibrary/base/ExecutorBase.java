@@ -33,9 +33,10 @@ public abstract class ExecutorBase {
 
     /**
      * 此构造方法必须有，框架会自动调用，前提是该类的子类必须按规则命名，例如/EasyLibrary help对应的类就是HelpExecutor
-     * @param sender
-     * @param commandName
-     * @param args
+     *
+     * @param sender      命令的发送者
+     * @param commandName 命令的名字，例如/EasyLibrary help 1的名字为help
+     * @param args        命令的参数，例如/EasyLibrary help 1的参数为{1}
      */
     public ExecutorBase(@NotNull CommandSender sender, String commandName, @NotNull String[] args) {
         this.sender = sender;
@@ -47,7 +48,7 @@ public abstract class ExecutorBase {
      * 此方法为框架自动调用，此方法在执行run前，判断玩家是否有权限，权限的节点为插件名.命令名，例如/EasyLibrary help的节点则为EasyLibrary.help
      */
     public void process() {
-        String permission = EasyPlugin.instance.getName()+ "." + commandName;
+        String permission = EasyPlugin.instance.getName() + "." + commandName;
         if (!sender.hasPermission(permission)) {
             List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notPermission");
             if (list != null) {

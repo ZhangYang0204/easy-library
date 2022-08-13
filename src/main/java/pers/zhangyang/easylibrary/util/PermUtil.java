@@ -12,21 +12,21 @@ public class PermUtil {
             if (!player.getPermission().startsWith(startWith.toLowerCase())) {
                 continue;
             }
-                int endIndex = player.getPermission().split("\\.").length-1;
-                if (endIndex < 0) {
-                    continue;
-                }
-                int current;
-                    try {
-                        current = Integer.parseInt(player.getPermission().split("\\.")[endIndex]);
-                    } catch (NumberFormatException e) {
-                        continue;
-                    }
+            int endIndex = player.getPermission().split("\\.").length - 1;
+            if (endIndex < 0) {
+                continue;
+            }
+            int current;
+            try {
+                current = Integer.parseInt(player.getPermission().split("\\.")[endIndex]);
+            } catch (NumberFormatException e) {
+                continue;
+            }
 
-                    if (max!=null&&current<=max) {
-                        continue;
-                    }
-                    max=current;
+            if (max != null && current <= max) {
+                continue;
+            }
+            max = current;
 
         }
         return max;
@@ -39,7 +39,7 @@ public class PermUtil {
             if (!player.getPermission().startsWith(startWith.toLowerCase())) {
                 continue;
             }
-            int endIndex = player.getPermission().split("\\.").length-1;
+            int endIndex = player.getPermission().split("\\.").length - 1;
             if (endIndex < 0) {
                 continue;
             }
@@ -50,10 +50,10 @@ public class PermUtil {
                 continue;
             }
 
-            if (min!=null&&current>=min) {
+            if (min != null && current >= min) {
                 continue;
             }
-            min=current;
+            min = current;
 
         }
         return min;

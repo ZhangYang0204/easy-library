@@ -1,9 +1,9 @@
 package pers.zhangyang.easylibrary.meta;
 
 public class VersionMeta {
-    private  int big;
-    private  int middle;
-    private  int small;
+    private int big;
+    private int middle;
+    private int small;
 
     public VersionMeta() {
     }

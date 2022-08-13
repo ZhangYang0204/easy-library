@@ -10,12 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static pers.zhangyang.easylibrary.base.DaoBase.getConnection;
-
 public class VersionDao extends DaoBase {
 
 
-    public int init(){
+    public int init() {
         try {
             PreparedStatement ps;
             ps = getConnection().prepareStatement("" +
@@ -32,39 +30,39 @@ public class VersionDao extends DaoBase {
     }
 
     @Nullable
-    public VersionMeta get(){
+    public VersionMeta get() {
         try {
-        PreparedStatement ps;
-        ps = getConnection().prepareStatement("select * from version");
-        ResultSet rs = ps.executeQuery();
+            PreparedStatement ps;
+            ps = getConnection().prepareStatement("select * from version");
+            ResultSet rs = ps.executeQuery();
 
-        return singleTransform(rs,VersionMeta.class);
+            return singleTransform(rs, VersionMeta.class);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public int insert(@NotNull VersionMeta version){
+    public int insert(@NotNull VersionMeta version) {
         try {
-        PreparedStatement ps;
-        ps = getConnection().prepareStatement("insert into version (big,middle,small)" +
-                "values(?,?,?)");
-        ps.setInt(1, version.getBig());
-        ps.setInt(2, version.getMiddle());
-        ps.setInt(3, version.getSmall());
-        return ps.executeUpdate();
+            PreparedStatement ps;
+            ps = getConnection().prepareStatement("insert into version (big,middle,small)" +
+                    "values(?,?,?)");
+            ps.setInt(1, version.getBig());
+            ps.setInt(2, version.getMiddle());
+            ps.setInt(3, version.getSmall());
+            return ps.executeUpdate();
 
-    } catch (SQLException e) {
-        throw new RuntimeException(e);
-    }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public int delete(){
+    public int delete() {
         try {
-        PreparedStatement ps;
-        ps = getConnection().prepareStatement("delete from version ");
-        return ps.executeUpdate();
+            PreparedStatement ps;
+            ps = getConnection().prepareStatement("delete from version ");
+            return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

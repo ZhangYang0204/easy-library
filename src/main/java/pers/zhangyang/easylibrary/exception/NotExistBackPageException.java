@@ -1,4 +1,4 @@
 package pers.zhangyang.easylibrary.exception;
 
-public class NotExistBackPageException extends Exception{
+public class NotExistBackPageException extends Exception {
 }

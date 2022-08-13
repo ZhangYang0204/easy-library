@@ -53,13 +53,13 @@ public class PlayerClickGuiPage implements Listener {
         if (inventoryHolder instanceof GuiPage) {
             event.setCancelled(true);
             //返回
-            if (inventoryHolder instanceof BackAble && slot==49){
-                BackAble backAble= (BackAble) inventoryHolder;
+            if (inventoryHolder instanceof BackAble && slot == 49) {
+                BackAble backAble = (BackAble) inventoryHolder;
                 backAble.back();
             }
             //下一页
-            if (inventoryHolder instanceof MultipleGuiPageBase && slot==53){
-                MultipleGuiPageBase multipleGuiPageBase= (MultipleGuiPageBase) inventoryHolder;
+            if (inventoryHolder instanceof MultipleGuiPageBase && slot == 53) {
+                MultipleGuiPageBase multipleGuiPageBase = (MultipleGuiPageBase) inventoryHolder;
                 try {
                     multipleGuiPageBase.nextPage();
                 } catch (NotExistNextPageException e) {
@@ -67,8 +67,8 @@ public class PlayerClickGuiPage implements Listener {
                 }
             }
             //上一页
-            if (inventoryHolder instanceof MultipleGuiPageBase && slot==45){
-                MultipleGuiPageBase multipleGuiPageBase= (MultipleGuiPageBase) inventoryHolder;
+            if (inventoryHolder instanceof MultipleGuiPageBase && slot == 45) {
+                MultipleGuiPageBase multipleGuiPageBase = (MultipleGuiPageBase) inventoryHolder;
                 try {
                     multipleGuiPageBase.previousPage();
                 } catch (NotExistPreviousPageException e) {
@@ -78,11 +78,9 @@ public class PlayerClickGuiPage implements Listener {
         }
 
 
-
-
         //按钮被点击注解操作
         InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
-        YamlConfiguration yamlConfiguration=new YamlConfiguration();
+        YamlConfiguration yamlConfiguration = new YamlConfiguration();
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
         try {
             yamlConfiguration.load(inputStreamReader);
@@ -96,7 +94,7 @@ public class PlayerClickGuiPage implements Listener {
             throw new RuntimeException(e);
         }
         for (Class c : classList) {
-            if (!c.isAnnotationPresent(EventListener.class)){
+            if (!c.isAnnotationPresent(EventListener.class)) {
                 continue;
             }
             if (Modifier.isInterface(c.getModifiers()) || Modifier.isAbstract(c.getModifiers())) {
@@ -132,9 +130,8 @@ public class PlayerClickGuiPage implements Listener {
                     }
 
 
-
-                    if (slot>Math.max(guiSerialButtonHandler.from(), guiSerialButtonHandler.to())
-                            || slot<Math.min(guiSerialButtonHandler.from(), guiSerialButtonHandler.to())){
+                    if (slot > Math.max(guiSerialButtonHandler.from(), guiSerialButtonHandler.to())
+                            || slot < Math.min(guiSerialButtonHandler.from(), guiSerialButtonHandler.to())) {
                         continue;
                     }
 
@@ -146,7 +143,6 @@ public class PlayerClickGuiPage implements Listener {
                     }
                 }
             }
-
 
 
         }

@@ -12,7 +12,6 @@ import pers.zhangyang.easylibrary.service.impl.CommandServiceImpl;
 import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.ReplaceUtil;
 import pers.zhangyang.easylibrary.util.ResourceUtil;
-import pers.zhangyang.easylibrary.base.ExecutorBase;
 import pers.zhangyang.easylibrary.util.TransactionInvocationHandler;
 import pers.zhangyang.easylibrary.yaml.CompleterYaml;
 import pers.zhangyang.easylibrary.yaml.DatabaseYaml;
@@ -35,13 +34,14 @@ public class ReloadPluginExecutor {
 
     protected String commandName;
 
-    public ReloadPluginExecutor(@NotNull CommandSender sender,  String commandName, @NotNull String[] args) {
+    public ReloadPluginExecutor(@NotNull CommandSender sender, String commandName, @NotNull String[] args) {
         this.sender = sender;
         this.commandName = commandName;
         this.args = args;
     }
+
     public void process() {
-        String permission = EasyPlugin.instance.getName()+ "." + commandName;
+        String permission = EasyPlugin.instance.getName() + "." + commandName;
         if (!sender.hasPermission(permission)) {
             List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notPermission");
             if (list != null) {
@@ -52,6 +52,7 @@ public class ReloadPluginExecutor {
         }
         run();
     }
+
     protected void run() {
         try {
             CompleterYaml.INSTANCE.init();
@@ -59,7 +60,7 @@ public class ReloadPluginExecutor {
             MessageYaml.INSTANCE.init();
             SettingYaml.INSTANCE.init();
             InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
-            YamlConfiguration yamlConfiguration=new YamlConfiguration();
+            YamlConfiguration yamlConfiguration = new YamlConfiguration();
             InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
             yamlConfiguration.load(inputStreamReader);
             List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("yamlPackage"));

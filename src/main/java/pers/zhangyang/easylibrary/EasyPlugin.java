@@ -80,8 +80,8 @@ public abstract class EasyPlugin extends JavaPlugin {
         baseService.initDatabase();
 
         //自动注册有注解的监听器
-        Bukkit.getPluginManager().registerEvents(new PlayerClickGuiPage(),this);
-        Bukkit.getPluginManager().registerEvents(new PlayerJoin(),this);
+        Bukkit.getPluginManager().registerEvents(new PlayerClickGuiPage(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
         try {
             InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
             YamlConfiguration yamlConfiguration = new YamlConfiguration();
@@ -135,19 +135,17 @@ public abstract class EasyPlugin extends JavaPlugin {
         }
 
 
-
-
         String[] argument = new String[args.length - 1];
         System.arraycopy(args, 1, argument, 0, args.length - 1);
 //注册内部的
-        if (args[0].equalsIgnoreCase("CorrectYaml")){
-            new CorrectYamlExecutor(sender,args[0],argument).process();
+        if (args[0].equalsIgnoreCase("CorrectYaml")) {
+            new CorrectYamlExecutor(sender, args[0], argument).process();
         }
-        if (args[0].equalsIgnoreCase("Help")){
-            new HelpExecutor(sender,args[0],argument).process();
+        if (args[0].equalsIgnoreCase("Help")) {
+            new HelpExecutor(sender, args[0], argument).process();
         }
-        if (args[0].equalsIgnoreCase("ReloadPlugin")){
-            new ReloadPluginExecutor(sender,args[0],argument).process();
+        if (args[0].equalsIgnoreCase("ReloadPlugin")) {
+            new ReloadPluginExecutor(sender, args[0], argument).process();
         }
         try {
 

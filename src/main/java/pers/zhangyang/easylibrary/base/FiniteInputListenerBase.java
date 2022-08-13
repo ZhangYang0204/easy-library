@@ -35,9 +35,9 @@ public abstract class FiniteInputListenerBase implements Listener {
      * @param previousPage 交互后返回的Gui
      * @param sequence     交互的信息的数量
      */
-    public FiniteInputListenerBase(Player player,OfflinePlayer owner, GuiPage previousPage, int sequence) {
+    public FiniteInputListenerBase(Player player, OfflinePlayer owner, GuiPage previousPage, int sequence) {
         this.player = player;
-        this.owner=owner;
+        this.owner = owner;
         this.previousPage = previousPage;
         this.messages = new String[sequence];
         Bukkit.getPluginManager().registerEvents(this, EasyPlugin.instance);

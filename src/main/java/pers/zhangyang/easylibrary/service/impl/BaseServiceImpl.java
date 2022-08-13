@@ -21,17 +21,17 @@ import java.util.List;
 public class BaseServiceImpl implements BaseService {
 
     @Override
-    public void initDatabase(){
-        VersionDao versionDao=new VersionDao();
+    public void initDatabase() {
+        VersionDao versionDao = new VersionDao();
         versionDao.init();
-        if (versionDao.get()==null){
+        if (versionDao.get() == null) {
             versionDao.delete();
-            versionDao.insert(new VersionMeta(VersionUtil.getPluginBigVersion(),VersionUtil.getPluginMiddleVersion(),
+            versionDao.insert(new VersionMeta(VersionUtil.getPluginBigVersion(), VersionUtil.getPluginMiddleVersion(),
                     VersionUtil.getPluginSmallVersion()));
         }
 
         InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
-        YamlConfiguration yamlConfiguration=new YamlConfiguration();
+        YamlConfiguration yamlConfiguration = new YamlConfiguration();
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
         try {
             yamlConfiguration.load(inputStreamReader);

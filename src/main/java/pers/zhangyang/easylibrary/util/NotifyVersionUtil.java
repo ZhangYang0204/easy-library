@@ -18,10 +18,10 @@ public class NotifyVersionUtil {
             public void run() {
                 String latestVersion;
                 try {
-                    String urlStringPart1="https://zhangyang0204.github.io/";
-                    String urlStringPart3="/index.html";
-                    String urlStringPart2=ReplaceUtil.replaceToRepositoryName(EasyPlugin.instance.getName());
-                    latestVersion=ResourceUtil.readFirstLine(new URL(urlStringPart1+urlStringPart2+urlStringPart3));
+                    String urlStringPart1 = "https://zhangyang0204.github.io/";
+                    String urlStringPart3 = "/index.html";
+                    String urlStringPart2 = ReplaceUtil.replaceToRepositoryName(EasyPlugin.instance.getName());
+                    latestVersion = ResourceUtil.readFirstLine(new URL(urlStringPart1 + urlStringPart2 + urlStringPart3));
                 } catch (Throwable e) {
                     latestVersion = null;
                 }

@@ -26,6 +26,7 @@ public class PlayerUtil {
     public static boolean hasItemInMainHand(@NotNull Player player) {
         return !PlayerUtil.getItemInMainHand(player).getType().equals(Material.AIR);
     }
+
     @NotNull
     public static ItemStack getItemInMainHand(@NotNull Player player) {
         int big = VersionUtil.getMinecraftBigVersion();
@@ -38,7 +39,7 @@ public class PlayerUtil {
     }
 
     public static void addItem(@NotNull Player player, @NotNull ItemStack itemStack, int amount) {
-        itemStack=itemStack.clone();
+        itemStack = itemStack.clone();
         if (checkSpace(player, itemStack) < amount) {
             throw new IllegalArgumentException();
         }
@@ -54,7 +55,7 @@ public class PlayerUtil {
     }
 
     public static void removeItem(@NotNull Player player, @NotNull ItemStack itemStack, int amount) {
-        itemStack=itemStack.clone();
+        itemStack = itemStack.clone();
         if (amount < 0) {
             throw new IllegalArgumentException();
         }
@@ -79,7 +80,7 @@ public class PlayerUtil {
     //由计算出玩家背包能已拥有的物品数量
     public static int computeItemHave(@NotNull ItemStack itemStack, @NotNull Player player) {
 
-        itemStack=itemStack.clone();
+        itemStack = itemStack.clone();
         int number = 0;
         Inventory inventory = player.getInventory();
         for (int i = 0; i < 36; i++) {
@@ -96,7 +97,7 @@ public class PlayerUtil {
     //算出玩家背包内容纳某物品的数量 itemStack的数量无视
     public static int checkSpace(@NotNull Player player, @NotNull ItemStack itemStack) {
 
-        itemStack=itemStack.clone();
+        itemStack = itemStack.clone();
         int maxStack = itemStack.getMaxStackSize();
         Inventory inventory = player.getInventory();
         int space = 0;

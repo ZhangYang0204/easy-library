@@ -18,9 +18,10 @@ public abstract class InfiniteInputListenerBase implements Listener {
     protected Player player;
     protected OfflinePlayer owner;
     protected GuiPage previousPage;
-    protected List<String> messageList =new ArrayList<>();
-    public InfiniteInputListenerBase(Player player,OfflinePlayer owner, GuiPage previousPage) {
-        this.owner=owner;
+    protected List<String> messageList = new ArrayList<>();
+
+    public InfiniteInputListenerBase(Player player, OfflinePlayer owner, GuiPage previousPage) {
+        this.owner = owner;
         this.player = player;
         this.previousPage = previousPage;
         Bukkit.getPluginManager().registerEvents(this, EasyPlugin.instance);
@@ -28,12 +29,12 @@ public abstract class InfiniteInputListenerBase implements Listener {
     }
 
     @EventHandler
-    public void on(AsyncPlayerChatEvent event){
-        if (!event.getPlayer().equals(player)){
+    public void on(AsyncPlayerChatEvent event) {
+        if (!event.getPlayer().equals(player)) {
             return;
         }
         event.setCancelled(true);
-        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getInput("message.input.cancel"))){
+        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getInput("message.input.cancel"))) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -42,19 +43,19 @@ public abstract class InfiniteInputListenerBase implements Listener {
             }.runTask(EasyPlugin.instance);
             return;
         }
-        if (!event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getInput("message.input.submit"))){
+        if (!event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getInput("message.input.submit"))) {
             messageList.add(event.getMessage());
             return;
         }
         AsyncPlayerChatEvent.getHandlerList().unregister(this);
         PlayerQuitEvent.getHandlerList().unregister(this);
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    InfiniteInputListenerBase.this.run();
-                    previousPage.refresh();
-                }
-            }.runTask(EasyPlugin.instance);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                InfiniteInputListenerBase.this.run();
+                previousPage.refresh();
+            }
+        }.runTask(EasyPlugin.instance);
 
     }
 

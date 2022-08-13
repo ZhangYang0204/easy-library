@@ -31,9 +31,9 @@ public class ResourceUtil {
         Enumeration<JarEntry> ee = jarFile.entries();
 
         while (ee.hasMoreElements()) {
-            JarEntry entry =ee.nextElement();
+            JarEntry entry = ee.nextElement();
             // 过滤我们出满足我们需求的东西
-            for (String s:packageList) {
+            for (String s : packageList) {
                 if (entry.getName().startsWith(s) && entry.getName().endsWith(".class")) {
                     jarEntryList.add(entry);
                 }
@@ -52,6 +52,7 @@ public class ResourceUtil {
         }
         return clazzs;
     }
+
     public static void deleteFile(@NotNull File file) throws FailureDeleteFileException {
         File[] files = file.listFiles();
         if (files == null) {

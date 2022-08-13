@@ -3,10 +3,9 @@ package pers.zhangyang.easylibrary.executor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import pers.zhangyang.easylibrary.EasyPlugin;
+import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.ReplaceUtil;
 import pers.zhangyang.easylibrary.yaml.MessageYaml;
-import pers.zhangyang.easylibrary.base.ExecutorBase;
-import pers.zhangyang.easylibrary.util.MessageUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,13 +17,14 @@ public class HelpExecutor {
 
     protected String commandName;
 
-    public HelpExecutor(@NotNull CommandSender sender,  String commandName, @NotNull String[] args) {
+    public HelpExecutor(@NotNull CommandSender sender, String commandName, @NotNull String[] args) {
         this.sender = sender;
         this.commandName = commandName;
         this.args = args;
     }
+
     public void process() {
-        String permission = EasyPlugin.instance.getName()+ "." + commandName;
+        String permission = EasyPlugin.instance.getName() + "." + commandName;
         if (!sender.hasPermission(permission)) {
             List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notPermission");
             if (list != null) {
@@ -35,6 +35,7 @@ public class HelpExecutor {
         }
         run();
     }
+
     protected void run() {
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.help"));
     }

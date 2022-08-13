@@ -5,7 +5,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import pers.zhangyang.easylibrary.EasyPlugin;
-import pers.zhangyang.easylibrary.base.ExecutorBase;
 import pers.zhangyang.easylibrary.base.YamlBase;
 import pers.zhangyang.easylibrary.util.MessageUtil;
 import pers.zhangyang.easylibrary.util.ReplaceUtil;
@@ -31,13 +30,14 @@ public class CorrectYamlExecutor {
 
     protected String commandName;
 
-    public CorrectYamlExecutor(@NotNull CommandSender sender,  String commandName, @NotNull String[] args) {
+    public CorrectYamlExecutor(@NotNull CommandSender sender, String commandName, @NotNull String[] args) {
         this.sender = sender;
         this.commandName = commandName;
         this.args = args;
     }
+
     public void process() {
-        String permission = EasyPlugin.instance.getName()+ "." + commandName;
+        String permission = EasyPlugin.instance.getName() + "." + commandName;
         if (!sender.hasPermission(permission)) {
             List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.notPermission");
             if (list != null) {
@@ -48,6 +48,7 @@ public class CorrectYamlExecutor {
         }
         run();
     }
+
     protected void run() {
 
         try {
@@ -56,7 +57,7 @@ public class CorrectYamlExecutor {
             MessageYaml.INSTANCE.correct();
             SettingYaml.INSTANCE.correct();
             InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
-            YamlConfiguration yamlConfiguration=new YamlConfiguration();
+            YamlConfiguration yamlConfiguration = new YamlConfiguration();
             InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
             yamlConfiguration.load(inputStreamReader);
             List<Class> classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("yamlPackage"));

@@ -23,15 +23,15 @@ public class CommandServiceImpl implements CommandService {
     @Override
     public void initDatabase() {
 
-        VersionDao versionDao=new VersionDao();
+        VersionDao versionDao = new VersionDao();
         versionDao.init();
-        if (versionDao.get()==null){
+        if (versionDao.get() == null) {
             versionDao.delete();
-            versionDao.insert(new VersionMeta(VersionUtil.getPluginBigVersion(),VersionUtil.getPluginMiddleVersion(),
+            versionDao.insert(new VersionMeta(VersionUtil.getPluginBigVersion(), VersionUtil.getPluginMiddleVersion(),
                     VersionUtil.getPluginSmallVersion()));
         }
         InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
-        YamlConfiguration yamlConfiguration=new YamlConfiguration();
+        YamlConfiguration yamlConfiguration = new YamlConfiguration();
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
         try {
             yamlConfiguration.load(inputStreamReader);
@@ -53,7 +53,7 @@ public class CommandServiceImpl implements CommandService {
             }
             DaoBase daoBase = null;
             try {
-                daoBase= (DaoBase) c.newInstance();
+                daoBase = (DaoBase) c.newInstance();
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }

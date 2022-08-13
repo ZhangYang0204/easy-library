@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pers.zhangyang.easylibrary.exception.NotExistBackPageException;
 import pers.zhangyang.easylibrary.exception.NotExistNextPageException;
 import pers.zhangyang.easylibrary.exception.NotExistPreviousPageException;
 
@@ -18,26 +17,28 @@ public abstract class MultipleGuiPageBase implements GuiPage {
     protected GuiPage backPage;
     protected OfflinePlayer owner;
 
-    public MultipleGuiPageBase(@Nullable String title,@NotNull Player viewer,@Nullable GuiPage backPage,OfflinePlayer owner){
-        if (title!=null){
-            inventory= Bukkit.createInventory(this,54, ChatColor.translateAlternateColorCodes('&', title));
-        }else {
-            inventory=Bukkit.createInventory(this,54);
+    public MultipleGuiPageBase(@Nullable String title, @NotNull Player viewer, @Nullable GuiPage backPage, OfflinePlayer owner) {
+        if (title != null) {
+            inventory = Bukkit.createInventory(this, 54, ChatColor.translateAlternateColorCodes('&', title));
+        } else {
+            inventory = Bukkit.createInventory(this, 54);
         }
-        this.owner=owner;
-        this.viewer=viewer;
-        this.pageIndex=0;
+        this.owner = owner;
+        this.viewer = viewer;
+        this.pageIndex = 0;
         this.backPage = backPage;
     }
+
     public abstract void send();
+
     public abstract void refresh();
 
-    public  void nextPage() throws NotExistNextPageException {
+    public void nextPage() throws NotExistNextPageException {
         this.pageIndex++;
         refresh();
     }
 
-    public  void previousPage() throws NotExistPreviousPageException {
+    public void previousPage() throws NotExistPreviousPageException {
         this.pageIndex--;
         refresh();
     }
