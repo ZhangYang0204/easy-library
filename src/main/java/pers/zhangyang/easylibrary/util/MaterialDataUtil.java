@@ -30,7 +30,9 @@ public class MaterialDataUtil {
     public static String serializeMaterialData(@NotNull MaterialData materialData) {
 
         Map<String, String> m = new HashMap<>();
-        return "{'type'=\"" + materialData.getItemType().name() + "\",'data'=" + materialData.getData() + "}";
+        m.put("type",materialData.getItemType().name());
+        m.put("data", String.valueOf(materialData.getData()));
+        return new Gson().toJson(m);
 
     }
 }
