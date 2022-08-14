@@ -122,6 +122,9 @@ public class PlayerClickGuiPage implements Listener {
                     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                         e.printStackTrace();
                     }
+
+
+
                 }
                 if (m.isAnnotationPresent(GuiSerialButtonHandler.class)) {
                     GuiSerialButtonHandler guiSerialButtonHandler = m.getAnnotation(GuiSerialButtonHandler.class);
@@ -141,6 +144,7 @@ public class PlayerClickGuiPage implements Listener {
                     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                         e.printStackTrace();
                     }
+
                 }
             }
 
