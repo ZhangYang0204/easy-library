@@ -33,6 +33,9 @@ public abstract class DaoBase {
         try {
             if (connection == null || connection.isClosed()) {
                 DatabaseYaml databaseYamlManager = DatabaseYaml.INSTANCE;
+
+                Class.forName("org.sqlite.JDBC");
+                Class.forName("com.mysql.jdbc.Driver");
                 connection = DriverManager.getConnection(
                         databaseYamlManager.getStringDefault("database.url"),
                         databaseYamlManager.getString("database.username"),
@@ -42,6 +45,8 @@ public abstract class DaoBase {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return connection;
     }

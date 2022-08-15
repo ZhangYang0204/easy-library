@@ -17,6 +17,8 @@ import java.util.List;
 
 public class BlockEffectUtil {
 
+    public static List<Location> placedBlockEffectLocationList=new ArrayList<>();
+
     //用基岩显示选区，基岩不会被破坏，方便一些
     public static void showSection(Location location1,Location location2) throws NotSameWorldLocationException {
 
@@ -40,7 +42,6 @@ public class BlockEffectUtil {
                 int zTo=Math.max(location1.getBlockZ(),location2.getBlockZ());
 
 
-                List<Location> placed=new ArrayList<>();
 
                     for (int i = xFrom; i <= xTo; i++) {
 
@@ -51,10 +52,10 @@ public class BlockEffectUtil {
                         locations[3] = new Location(world, i, yTo, zTo);
 
                         for (int ii = 0; ii < 4; ii++) {
-                            if (placed.contains(locations[ii])){
+                            if (placedBlockEffectLocationList.contains(locations[ii])){
                                 continue;
                             }else {
-                                placed.add(locations[ii]);
+                                placedBlockEffectLocationList.add(locations[ii]);
                             }
 
 
@@ -78,7 +79,7 @@ public class BlockEffectUtil {
                                         blockState.setRawData(oldRawData);
                                         blockState.setData(oldMaterialData);
                                         blockState.update(true, false);
-
+                                        placedBlockEffectLocationList.remove(blockState.getBlock().getLocation());
                                     }
                                 }.runTaskLater(EasyPlugin.instance, 100);
 
@@ -91,6 +92,7 @@ public class BlockEffectUtil {
                                     @Override
                                     public void run() {
                                         block.setBlockData(oldBlockData);
+                                        placedBlockEffectLocationList.remove(block.getLocation());
                                     }
                                 }.runTaskLater(EasyPlugin.instance, 100);
                             }
@@ -109,10 +111,10 @@ public class BlockEffectUtil {
                 locations[3] = new Location(world, xTo, yTo, i);
 
                 for (int ii = 0; ii < 4; ii++) {
-                    if (placed.contains(locations[ii])){
+                    if (placedBlockEffectLocationList.contains(locations[ii])){
                         continue;
                     }else {
-                        placed.add(locations[ii]);
+                        placedBlockEffectLocationList.add(locations[ii]);
                     }
                     if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil.getMinecraftMiddleVersion() < 13) {
                         Block block = locations[ii].getBlock();
@@ -135,6 +137,7 @@ public class BlockEffectUtil {
                                 blockState.setData(oldMaterialData);
                                 blockState.update(true, false);
 
+                                placedBlockEffectLocationList.remove(blockState.getBlock().getLocation());
                             }
                         }.runTaskLater(EasyPlugin.instance, 100);
 
@@ -147,6 +150,7 @@ public class BlockEffectUtil {
                             @Override
                             public void run() {
                                 block.setBlockData(oldBlockData);
+                                placedBlockEffectLocationList.remove(block.getLocation());
                             }
                         }.runTaskLater(EasyPlugin.instance, 100);
                     }
@@ -164,10 +168,10 @@ public class BlockEffectUtil {
                 locations[3] = new Location(world, xTo, i, zTo);
 
                 for (int ii = 0; ii < 4; ii++) {
-                    if (placed.contains(locations[ii])){
+                    if (placedBlockEffectLocationList.contains(locations[ii])){
                         continue;
                     }else {
-                        placed.add(locations[ii]);
+                        placedBlockEffectLocationList.add(locations[ii]);
                     }
                     if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil.getMinecraftMiddleVersion() < 13) {
                         Block block = locations[ii].getBlock();
@@ -189,6 +193,7 @@ public class BlockEffectUtil {
                                 blockState.setRawData(oldRawData);
                                 blockState.setData(oldMaterialData);
                                 blockState.update(true, false);
+                                placedBlockEffectLocationList.remove(blockState.getBlock().getLocation());
 
                             }
                         }.runTaskLater(EasyPlugin.instance, 100);
@@ -202,6 +207,7 @@ public class BlockEffectUtil {
                             @Override
                             public void run() {
                                 block.setBlockData(oldBlockData);
+                                placedBlockEffectLocationList.remove(block.getLocation());
                             }
                         }.runTaskLater(EasyPlugin.instance, 100);
                     }
