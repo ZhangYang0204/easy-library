@@ -6,7 +6,11 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Container;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.inventory.BlockInventoryHolder;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 import pers.zhangyang.easylibrary.EasyPlugin;
@@ -63,6 +67,12 @@ public class BlockEffectUtil {
                                 Block block = locations[ii].getBlock();
                                 BlockState blockState = block.getState();
 
+                                ItemStack[] inventoryContent=null;
+                                if (blockState instanceof Container){
+                                    Container container= (Container) blockState;
+                                    inventoryContent=container.getInventory().getContents();
+                                }
+
                                 Material oldType = blockState.getType();
                                 byte oldRawData = blockState.getRawData();
                                 MaterialData oldMaterialData = blockState.getData();
@@ -72,26 +82,46 @@ public class BlockEffectUtil {
                                 blockState.setData(new MaterialData(Material.BEDROCK));
                                 blockState.update(true, false);
 
+
+                                ItemStack[] finalInventoryContent = inventoryContent;
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
-                                        blockState.setType(oldType);
-                                        blockState.setRawData(oldRawData);
-                                        blockState.setData(oldMaterialData);
-                                        blockState.update(true, false);
-                                        placedBlockEffectLocationList.remove(blockState.getBlock().getLocation());
+                                        block.getState().setType(oldType);
+                                        block.getState().setRawData(oldRawData);
+                                        block.getState().setData(oldMaterialData);
+                                        block.getState().update(true, false);
+                                        if (finalInventoryContent!=null){
+                                            Container container= (Container) block.getState();
+                                            container.getInventory().setContents(finalInventoryContent);
+                                        }
+                                        placedBlockEffectLocationList.remove(block.getLocation());
                                     }
                                 }.runTaskLater(EasyPlugin.instance, 100);
 
 
                             } else {
+
                                 Block block = locations[ii].getBlock();
+                                BlockState blockState=block.getState();
+
+                                ItemStack[] inventoryContent=null;
+                                if (blockState instanceof BlockInventoryHolder){
+                                    BlockInventoryHolder container= (BlockInventoryHolder) blockState;
+                                    inventoryContent=container.getInventory().getContents();
+                                }
+
                                 BlockData oldBlockData = block.getBlockData();
                                 block.setBlockData(Bukkit.createBlockData(Material.BEDROCK));
+                                ItemStack[] finalInventoryContent = inventoryContent;
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
                                         block.setBlockData(oldBlockData);
+                                        if (finalInventoryContent !=null){
+                                            BlockInventoryHolder container= (BlockInventoryHolder) block.getState();
+                                            container.getInventory().setContents(finalInventoryContent);
+                                        }
                                         placedBlockEffectLocationList.remove(block.getLocation());
                                     }
                                 }.runTaskLater(EasyPlugin.instance, 100);
@@ -116,9 +146,17 @@ public class BlockEffectUtil {
                     }else {
                         placedBlockEffectLocationList.add(locations[ii]);
                     }
+
+
                     if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil.getMinecraftMiddleVersion() < 13) {
                         Block block = locations[ii].getBlock();
                         BlockState blockState = block.getState();
+
+                        ItemStack[] inventoryContent=null;
+                        if (blockState instanceof Container){
+                            Container container= (Container) blockState;
+                            inventoryContent=container.getInventory().getContents();
+                        }
 
                         Material oldType = blockState.getType();
                         byte oldRawData = blockState.getRawData();
@@ -129,27 +167,46 @@ public class BlockEffectUtil {
                         blockState.setData(new MaterialData(Material.BEDROCK));
                         blockState.update(true, false);
 
+
+                        ItemStack[] finalInventoryContent = inventoryContent;
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                blockState.setType(oldType);
-                                blockState.setRawData(oldRawData);
-                                blockState.setData(oldMaterialData);
-                                blockState.update(true, false);
-
-                                placedBlockEffectLocationList.remove(blockState.getBlock().getLocation());
+                                block.getState().setType(oldType);
+                                block.getState().setRawData(oldRawData);
+                                block.getState().setData(oldMaterialData);
+                                block.getState().update(true, false);
+                                if (finalInventoryContent!=null){
+                                    Container container= (Container) block.getState();
+                                    container.getInventory().setContents(finalInventoryContent);
+                                }
+                                placedBlockEffectLocationList.remove(block.getLocation());
                             }
                         }.runTaskLater(EasyPlugin.instance, 100);
 
 
                     } else {
+
                         Block block = locations[ii].getBlock();
+                        BlockState blockState=block.getState();
+
+                        ItemStack[] inventoryContent=null;
+                        if (blockState instanceof BlockInventoryHolder){
+                            BlockInventoryHolder container= (BlockInventoryHolder) blockState;
+                            inventoryContent=container.getInventory().getContents();
+                        }
+
                         BlockData oldBlockData = block.getBlockData();
                         block.setBlockData(Bukkit.createBlockData(Material.BEDROCK));
+                        ItemStack[] finalInventoryContent = inventoryContent;
                         new BukkitRunnable() {
                             @Override
                             public void run() {
                                 block.setBlockData(oldBlockData);
+                                if (finalInventoryContent !=null){
+                                    BlockInventoryHolder container= (BlockInventoryHolder) block.getState();
+                                    container.getInventory().setContents(finalInventoryContent);
+                                }
                                 placedBlockEffectLocationList.remove(block.getLocation());
                             }
                         }.runTaskLater(EasyPlugin.instance, 100);
@@ -173,9 +230,17 @@ public class BlockEffectUtil {
                     }else {
                         placedBlockEffectLocationList.add(locations[ii]);
                     }
+
+
                     if (VersionUtil.getMinecraftBigVersion() == 1 && VersionUtil.getMinecraftMiddleVersion() < 13) {
                         Block block = locations[ii].getBlock();
                         BlockState blockState = block.getState();
+
+                        ItemStack[] inventoryContent=null;
+                        if (blockState instanceof Container){
+                            Container container= (Container) blockState;
+                            inventoryContent=container.getInventory().getContents();
+                        }
 
                         Material oldType = blockState.getType();
                         byte oldRawData = blockState.getRawData();
@@ -186,27 +251,46 @@ public class BlockEffectUtil {
                         blockState.setData(new MaterialData(Material.BEDROCK));
                         blockState.update(true, false);
 
+
+                        ItemStack[] finalInventoryContent = inventoryContent;
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                blockState.setType(oldType);
-                                blockState.setRawData(oldRawData);
-                                blockState.setData(oldMaterialData);
-                                blockState.update(true, false);
-                                placedBlockEffectLocationList.remove(blockState.getBlock().getLocation());
-
+                                block.getState().setType(oldType);
+                                block.getState().setRawData(oldRawData);
+                                block.getState().setData(oldMaterialData);
+                                block.getState().update(true, false);
+                                if (finalInventoryContent!=null){
+                                    Container container= (Container) block.getState();
+                                    container.getInventory().setContents(finalInventoryContent);
+                                }
+                                placedBlockEffectLocationList.remove(block.getLocation());
                             }
                         }.runTaskLater(EasyPlugin.instance, 100);
 
 
                     } else {
+
                         Block block = locations[ii].getBlock();
+                        BlockState blockState=block.getState();
+
+                        ItemStack[] inventoryContent=null;
+                        if (blockState instanceof BlockInventoryHolder){
+                            BlockInventoryHolder container= (BlockInventoryHolder) blockState;
+                            inventoryContent=container.getInventory().getContents();
+                        }
+
                         BlockData oldBlockData = block.getBlockData();
                         block.setBlockData(Bukkit.createBlockData(Material.BEDROCK));
+                        ItemStack[] finalInventoryContent = inventoryContent;
                         new BukkitRunnable() {
                             @Override
                             public void run() {
                                 block.setBlockData(oldBlockData);
+                                if (finalInventoryContent !=null){
+                                    BlockInventoryHolder container= (BlockInventoryHolder) block.getState();
+                                    container.getInventory().setContents(finalInventoryContent);
+                                }
                                 placedBlockEffectLocationList.remove(block.getLocation());
                             }
                         }.runTaskLater(EasyPlugin.instance, 100);
