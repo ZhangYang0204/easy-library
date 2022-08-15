@@ -10,7 +10,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 import pers.zhangyang.easylibrary.EasyPlugin;
-import pers.zhangyang.easylibrary.exception.NotSameWorldException;
+import pers.zhangyang.easylibrary.exception.NotSameWorldLocationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +18,13 @@ import java.util.List;
 public class BlockEffectUtil {
 
     //用基岩显示选区，基岩不会被破坏，方便一些
-    public static void showSection(Location location1,Location location2) throws NotSameWorldException {
+    public static void showSection(Location location1,Location location2) throws NotSameWorldLocationException {
 
         if (location1.getWorld()==null||location2.getWorld()==null){
-            throw new NotSameWorldException();
+            throw new NotSameWorldLocationException();
         }
         if (!location1.getWorld().equals(location2.getWorld())){
-            throw new NotSameWorldException();
+            throw new NotSameWorldLocationException();
         }
 
 
