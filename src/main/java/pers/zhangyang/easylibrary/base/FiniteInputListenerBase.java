@@ -56,6 +56,8 @@ public abstract class FiniteInputListenerBase implements Listener {
             return;
         }
         event.setCancelled(true);
+        AsyncPlayerChatEvent.getHandlerList().unregister(this);
+        PlayerQuitEvent.getHandlerList().unregister(this);
         if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getInput("message.input.cancel"))) {
             new BukkitRunnable() {
                 @Override
@@ -75,8 +77,6 @@ public abstract class FiniteInputListenerBase implements Listener {
             return;
         }
 
-        AsyncPlayerChatEvent.getHandlerList().unregister(this);
-        PlayerQuitEvent.getHandlerList().unregister(this);
         new BukkitRunnable() {
             @Override
             public void run() {
