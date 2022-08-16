@@ -291,6 +291,20 @@ public abstract class YamlBase {
         return var;
     }
 
+    @Nullable
+    public ItemStack getItemStack(@NotNull String path) {
+        ItemStack var = getItemStack(path);
+        return var;
+    }
+    @NotNull
+    public ItemStack getItemStackDefault(@NotNull String path) {
+        ItemStack var = getItemStack(path);
+        if (var==null){
+            var=backUpConfiguration.getItemStack(path);
+        }
+        assert var != null;
+        return var;
+    }
     @NotNull
     public Integer getNonnegativeIntegerDefault(@NotNull String path) {
         int var = getIntegerDefault(path);
