@@ -293,12 +293,11 @@ public abstract class YamlBase {
 
     @Nullable
     public ItemStack getItemStack(@NotNull String path) {
-        ItemStack var = getItemStack(path);
-        return var;
+        return yamlConfiguration.getItemStack(path);
     }
     @NotNull
     public ItemStack getItemStackDefault(@NotNull String path) {
-        ItemStack var = getItemStack(path);
+        ItemStack var = yamlConfiguration.getItemStack(path);
         if (var==null){
             var=backUpConfiguration.getItemStack(path);
         }
