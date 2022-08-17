@@ -2,6 +2,7 @@ package pers.zhangyang.easylibrary.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +20,8 @@ public class CommandUtil {
             if (commandSender instanceof Player) {
                 s = PlaceholderAPI.setPlaceholders((Player) commandSender, s);
             }
+
+            s = ChatColor.translateAlternateColorCodes('&',s);
             String[] args = s.split(":");
             if (args.length != 2) {
                 continue;
