@@ -13,14 +13,21 @@ import java.util.Collections;
 import java.util.List;
 
 public class MessageUtil {
+    /**
+     *     如果是玩家支持Papi变量
+     */
     public static void notPlayer(CommandSender sender) {
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.notPlayer"));
     }
-
+    /**
+     *     如果是玩家支持Papi变量
+     */
     public static void notItemInMainHand(CommandSender sender) {
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.notItemInMainHand"));
     }
-
+    /**
+     *     如果是玩家支持Papi变量
+     */
     public static void invalidArgument(@NotNull CommandSender sender, String arg) {
         List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.invalidArgument");
         if (list != null) {
@@ -28,6 +35,9 @@ public class MessageUtil {
         }
         MessageUtil.sendMessageTo(sender, list);
     }
+    /**
+     *     如果是玩家支持Papi变量
+     */
 
     public static void sendTitleTo(@NotNull Player player, @Nullable String title, @Nullable String subtitle) {
         if (title != null) {
@@ -41,7 +51,9 @@ public class MessageUtil {
         }
         player.sendTitle(title, subtitle, 10, 10, 20);
     }
-
+    /**
+     *     如果是玩家支持Papi变量
+     */
     public static void sendMessageTo(@NotNull CommandSender sender, @Nullable List<String> strings) {
 
 
@@ -55,7 +67,9 @@ public class MessageUtil {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
         }
     }
-
+    /**
+     *     如果是玩家支持Papi变量
+     */
     public static void sendMessageTo(@NotNull Collection<? extends CommandSender> senderList, @Nullable List<String> strings) {
         if (strings == null) {
             return;
@@ -69,7 +83,9 @@ public class MessageUtil {
             }
         }
     }
-
+    /**
+     *     如果是玩家支持Papi变量
+     */
     public static void sendMessageTo(@NotNull Collection<? extends CommandSender> senderList, @Nullable String s) {
         if (s == null) {
             return;
@@ -81,7 +97,9 @@ public class MessageUtil {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
         }
     }
-
+    /**
+     *     如果是玩家支持Papi变量
+     */
     public static void sendMessageTo(@NotNull CommandSender sender, @Nullable String s) {
         if (s == null) {
             return;
