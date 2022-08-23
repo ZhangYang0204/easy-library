@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,12 +17,22 @@ public abstract class MultipleGuiPageBase implements GuiPage {
     protected int pageIndex;
     protected GuiPage backPage;
     protected OfflinePlayer owner;
-
-    public MultipleGuiPageBase(@Nullable String title, @NotNull Player viewer, @Nullable GuiPage backPage, OfflinePlayer owner) {
+    public MultipleGuiPageBase(@Nullable String title, @NotNull Player viewer, @Nullable GuiPage backPage, OfflinePlayer owner, InventoryType inventoryType) {
         if (title != null) {
-            inventory = Bukkit.createInventory(this, 54, ChatColor.translateAlternateColorCodes('&', title));
+            inventory = Bukkit.createInventory(this, inventoryType, ChatColor.translateAlternateColorCodes('&', title));
         } else {
-            inventory = Bukkit.createInventory(this, 54);
+            inventory = Bukkit.createInventory(this, inventoryType);
+        }
+        this.owner = owner;
+        this.viewer = viewer;
+        this.pageIndex = 0;
+        this.backPage = backPage;
+    }
+    public MultipleGuiPageBase(@Nullable String title, @NotNull Player viewer, @Nullable GuiPage backPage, OfflinePlayer owner,int size) {
+        if (title != null) {
+            inventory = Bukkit.createInventory(this, size, ChatColor.translateAlternateColorCodes('&', title));
+        } else {
+            inventory = Bukkit.createInventory(this, size);
         }
         this.owner = owner;
         this.viewer = viewer;
@@ -43,8 +54,8 @@ public abstract class MultipleGuiPageBase implements GuiPage {
         refresh();
     }
 
-
-    @NotNull
+    public  abstract  int  getPreviousPageSlot();
+    public  abstract  int  getNextPageSlot();
     @Override
     public Inventory getInventory() {
         return inventory;

@@ -17,7 +17,8 @@ public class CommandUtil {
      */
     public static void dispatchCommandList(@NotNull CommandSender commandSender,@NotNull List<String> cmdList){
         for (String s : cmdList) {
-            if (commandSender instanceof Player) {
+            if (commandSender instanceof Player&&
+                    Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
                 s = PlaceholderAPI.setPlaceholders((Player) commandSender, s);
             }
 

@@ -53,26 +53,32 @@ public class PlayerClickGuiPage implements Listener {
         if (inventoryHolder instanceof GuiPage) {
             event.setCancelled(true);
             //返回
-            if (inventoryHolder instanceof BackAble && slot == 49) {
+            if (inventoryHolder instanceof BackAble) {
                 BackAble backAble = (BackAble) inventoryHolder;
-                backAble.back();
+                if (backAble.getBackSlot()==slot) {
+                    backAble.back();
+                }
             }
             //下一页
-            if (inventoryHolder instanceof MultipleGuiPageBase && slot == 53) {
+            if (inventoryHolder instanceof MultipleGuiPageBase) {
                 MultipleGuiPageBase multipleGuiPageBase = (MultipleGuiPageBase) inventoryHolder;
-                try {
-                    multipleGuiPageBase.nextPage();
-                } catch (NotExistNextPageException e) {
-                    MessageUtil.sendMessageTo(event.getWhoClicked(), MessageYaml.INSTANCE.getStringList("message.chat.notExistNextPage"));
+                if (multipleGuiPageBase.getNextPageSlot()==slot) {
+                    try {
+                        multipleGuiPageBase.nextPage();
+                    } catch (NotExistNextPageException e) {
+                        MessageUtil.sendMessageTo(event.getWhoClicked(), MessageYaml.INSTANCE.getStringList("message.chat.notExistNextPage"));
+                    }
                 }
             }
             //上一页
-            if (inventoryHolder instanceof MultipleGuiPageBase && slot == 45) {
+            if (inventoryHolder instanceof MultipleGuiPageBase) {
                 MultipleGuiPageBase multipleGuiPageBase = (MultipleGuiPageBase) inventoryHolder;
-                try {
-                    multipleGuiPageBase.previousPage();
-                } catch (NotExistPreviousPageException e) {
-                    MessageUtil.sendMessageTo(event.getWhoClicked(), MessageYaml.INSTANCE.getStringList("message.chat.notExistPreviousPage"));
+                if (multipleGuiPageBase.getPreviousPageSlot()==slot) {
+                    try {
+                        multipleGuiPageBase.previousPage();
+                    } catch (NotExistPreviousPageException e) {
+                        MessageUtil.sendMessageTo(event.getWhoClicked(), MessageYaml.INSTANCE.getStringList("message.chat.notExistPreviousPage"));
+                    }
                 }
             }
         }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/d" />
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../d" />
     <option name="OTHER_OPTIONS" value="-encoding UTF-8 -charset UTF-8" />
     <option name="LOCALE" value="zh_CN" />
   </component>
@@ -15,5 +15,10 @@
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SwUserDefinedSpecifications">
+    <option name="specTypeByUrl">
+      <map />
+    </option>
   </component>
 </project>

@@ -1,6 +1,7 @@
 package pers.zhangyang.easylibrary.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -42,11 +43,15 @@ public class MessageUtil {
     public static void sendTitleTo(@NotNull Player player, @Nullable String title, @Nullable String subtitle) {
         if (title != null) {
 
-            title = PlaceholderAPI.setPlaceholders(player, title);
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
+                title = PlaceholderAPI.setPlaceholders(player, title);
+            }
             title = ChatColor.translateAlternateColorCodes('&', title);
         }
         if (subtitle != null) {
-            subtitle = PlaceholderAPI.setPlaceholders(player, subtitle);
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+                subtitle = PlaceholderAPI.setPlaceholders(player, subtitle);
+            }
             subtitle = ChatColor.translateAlternateColorCodes('&', subtitle);
         }
         player.sendTitle(title, subtitle, 10, 10, 20);
@@ -62,7 +67,10 @@ public class MessageUtil {
         }
         for (String s : strings) {
             if (sender instanceof Player) {
-                s = PlaceholderAPI.setPlaceholders((Player) sender, s);
+                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+                    s = PlaceholderAPI.setPlaceholders((Player) sender, s);
+
+                }
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
         }
@@ -77,7 +85,10 @@ public class MessageUtil {
         for (CommandSender sender : senderList) {
             for (String s : strings) {
                 if (sender instanceof Player) {
-                    s = PlaceholderAPI.setPlaceholders((Player) sender, s);
+                    if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+                        s = PlaceholderAPI.setPlaceholders((Player) sender, s);
+                    }
+
                 }
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
             }
@@ -92,7 +103,9 @@ public class MessageUtil {
         }
         for (CommandSender sender : senderList) {
             if (sender instanceof Player) {
-                s = PlaceholderAPI.setPlaceholders((Player) sender, s);
+                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+                    s = PlaceholderAPI.setPlaceholders((Player) sender, s);
+                }
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
         }
@@ -105,7 +118,9 @@ public class MessageUtil {
             return;
         }
         if (sender instanceof Player) {
-            s = PlaceholderAPI.setPlaceholders((Player) sender, s);
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+                s = PlaceholderAPI.setPlaceholders((Player) sender, s);
+            }
         }
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
     }
