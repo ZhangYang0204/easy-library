@@ -24,7 +24,7 @@ public class MessageUtil {
      *     如果是玩家支持Papi变量
      */
     public static void notItemInMainHand(CommandSender sender) {
-        MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.notItemInMainHand"));
+        MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.notItemStackInMainHand"));
     }
     /**
      *     如果是玩家支持Papi变量
