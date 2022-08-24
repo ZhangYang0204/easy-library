@@ -56,7 +56,7 @@ public abstract class FiniteInputListenerBase implements Listener {
             return;
         }
         event.setCancelled(true);
-        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getInput("message.input.cancel"))) {
+        if (event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getNonemptyStringDefault("message.input.cancel"))) {
 
             AsyncPlayerChatEvent.getHandlerList().unregister(this);
             PlayerQuitEvent.getHandlerList().unregister(this);
