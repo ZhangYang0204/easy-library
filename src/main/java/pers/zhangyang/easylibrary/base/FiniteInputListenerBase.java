@@ -41,7 +41,6 @@ public abstract class FiniteInputListenerBase implements Listener {
         this.previousPage = previousPage;
         this.messages = new String[sequence];
         Bukkit.getPluginManager().registerEvents(this, EasyPlugin.instance);
-        player.closeInventory();
     }
 
 

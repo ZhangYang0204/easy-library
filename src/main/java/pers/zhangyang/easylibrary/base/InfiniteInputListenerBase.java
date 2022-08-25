@@ -25,7 +25,6 @@ public abstract class InfiniteInputListenerBase implements Listener {
         this.player = player;
         this.previousPage = previousPage;
         Bukkit.getPluginManager().registerEvents(this, EasyPlugin.instance);
-        player.closeInventory();
     }
 
     @EventHandler

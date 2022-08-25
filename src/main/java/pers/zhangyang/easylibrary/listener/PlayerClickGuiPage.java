@@ -41,6 +41,7 @@ public class PlayerClickGuiPage implements Listener {
         if (!(event.getWhoClicked() instanceof Player)) {
             return;
         }
+        Player player= (Player) event.getWhoClicked();
         InventoryHolder inventoryHolder = event.getInventory().getHolder();
         int slot = event.getRawSlot();
         ItemStack itemStack = event.getCurrentItem();
@@ -127,16 +128,16 @@ public class PlayerClickGuiPage implements Listener {
                         m.setAccessible(true);
                         m.invoke(c.newInstance(), event);
 
-                        if (inventoryHolder instanceof GuiPage){
-                            GuiPage guiPage= (GuiPage) inventoryHolder;
-                            guiPage.refresh();
-                        }
-
-
                     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                         e.printStackTrace();
                     }
-
+                    if (inventoryHolder instanceof GuiPage&&guiDiscreteButtonHandler.refreshGui()){
+                        GuiPage guiPage= (GuiPage) inventoryHolder;
+                        guiPage.refresh();
+                    }
+                    if (guiDiscreteButtonHandler.closeGui()){
+                        player.closeInventory();
+                    }
 
                 }
                 if (m.isAnnotationPresent(GuiSerialButtonHandler.class)) {
@@ -154,15 +155,18 @@ public class PlayerClickGuiPage implements Listener {
                     try {
                         m.setAccessible(true);
                         m.invoke(c.newInstance(), event);
-                        if (inventoryHolder instanceof GuiPage){
-                            GuiPage guiPage= (GuiPage) inventoryHolder;
-                            guiPage.refresh();
-                        }
+
 
                     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                         e.printStackTrace();
                     }
-
+                    if (inventoryHolder instanceof GuiPage&&guiSerialButtonHandler.refreshGui()){
+                        GuiPage guiPage= (GuiPage) inventoryHolder;
+                        guiPage.refresh();
+                    }
+                    if (guiSerialButtonHandler.closeGui()){
+                        player.closeInventory();
+                    }
                 }
             }
 

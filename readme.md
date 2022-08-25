@@ -4,7 +4,7 @@
 * 自动提示版本信息
 * 自动提示插件开启和关闭
 * 注解实现注册事件类
-* 注解实现完成对Gui按钮的监听
+* 注解实现完成对Gui按钮的监听和关闭的控制
 * 继承和注解完成对gui的自动刷新
 * 继承实现初始化数据库文件
 * 继承实现指令修正yaml内容指令
@@ -26,8 +26,8 @@
 * 自动提示版本信息需要一个github仓库，仓库名为插件名，单词间用-隔开，并且在仓库的根目录创建index.html，在第一行写入最新版本即可
 * 自动提示插件开启关闭只需要在Message.yml里的enablePlugin和disablePlugin里天上内容即可
 * 在事件类上使用注解@EventListener即可自动注册
-* Gui按钮的监听需要在注册的事件类里的方法上写上@GuiDiscreteButtonHandler或@GuiSerialButtonHandler注解，参数表示监听的Gui的InventoryHolder的类和监听哪些下标槽位
-* 如果一个类用了@GuiDiscreteButtonHandler或@GuiSerialButtonHandler注解并且此类是GuiPage的子类，那么会自动在执行完注解的方法后执行一次refresh方法
+* Gui按钮的监听需要在注册的事件类里的方法上写上@GuiDiscreteButtonHandler或@GuiSerialButtonHandler注解，参数表示监听的Gui的InventoryHolder的类和监听哪些下标槽位和是否点击后关闭
+* 如果一个类用了@GuiDiscreteButtonHandler或@GuiSerialButtonHandler注解并且此类是GuiPage的子类，并且注解的refresh选项开启那么会自动在执行完注解的方法后执行一次refresh方法,refresh在close之前，会被close覆盖
 * 继承DaoBase并且在EasyLibrary.yml中daoPackage下的类会被自动调用init
 * 继承YamlBase并且在EasyLibrary.yml中yamlPackage下的类会被调用correctYaml自动修正
 * 继承了DaoBase并在注册的包下的类会在重载时重载，同样的还有YamlBase的子类和GuiPage的子类

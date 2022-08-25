@@ -18,7 +18,8 @@ public @interface GuiSerialButtonHandler {
     Class<? extends InventoryHolder> guiPage();
 
     int from();
-
+    boolean closeGui();
+    boolean refreshGui();
     int to();
 
 

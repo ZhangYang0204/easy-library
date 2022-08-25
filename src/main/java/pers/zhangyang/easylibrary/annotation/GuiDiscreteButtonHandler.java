@@ -16,6 +16,8 @@ import java.lang.annotation.*;
 public @interface GuiDiscreteButtonHandler {
     Class<? extends InventoryHolder> guiPage();
 
+    boolean refreshGui();
+    boolean closeGui();
 
     int[] slot();
 
