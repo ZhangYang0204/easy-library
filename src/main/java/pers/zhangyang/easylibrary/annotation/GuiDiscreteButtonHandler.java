@@ -9,6 +9,7 @@ import java.lang.annotation.*;
  * 与@GuiSerialButtonHandler互不干扰
  * 与@EventHandler互不干扰
  * 要在easyLibrary.yml指定的包下的类才有效
+ * closeGui在refreshGui后执行
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
