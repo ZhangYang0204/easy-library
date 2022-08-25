@@ -71,7 +71,8 @@ public class CorrectYamlExecutor {
                 YamlBase yamlBase = (YamlBase) c.getField("INSTANCE").get(c);
                 yamlBase.correct();
             }
-        } catch (NoSuchFieldException | IllegalAccessException | IOException | InvalidConfigurationException | URISyntaxException e) {
+        } catch (NoSuchFieldException | IllegalAccessException | IOException | InvalidConfigurationException |
+                 URISyntaxException e) {
             throw new RuntimeException(e);
         }
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.correctYaml"));

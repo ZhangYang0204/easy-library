@@ -55,14 +55,14 @@ public class PlayerClickGuiPage implements Listener {
             //返回
             if (inventoryHolder instanceof BackAble) {
                 BackAble backAble = (BackAble) inventoryHolder;
-                if (backAble.getBackSlot()==slot) {
+                if (backAble.getBackSlot() == slot) {
                     backAble.back();
                 }
             }
             //下一页
             if (inventoryHolder instanceof MultipleGuiPageBase) {
                 MultipleGuiPageBase multipleGuiPageBase = (MultipleGuiPageBase) inventoryHolder;
-                if (multipleGuiPageBase.getNextPageSlot()==slot) {
+                if (multipleGuiPageBase.getNextPageSlot() == slot) {
                     try {
                         multipleGuiPageBase.nextPage();
                     } catch (NotExistNextPageException e) {
@@ -73,7 +73,7 @@ public class PlayerClickGuiPage implements Listener {
             //上一页
             if (inventoryHolder instanceof MultipleGuiPageBase) {
                 MultipleGuiPageBase multipleGuiPageBase = (MultipleGuiPageBase) inventoryHolder;
-                if (multipleGuiPageBase.getPreviousPageSlot()==slot) {
+                if (multipleGuiPageBase.getPreviousPageSlot() == slot) {
                     try {
                         multipleGuiPageBase.previousPage();
                     } catch (NotExistPreviousPageException e) {
@@ -87,13 +87,14 @@ public class PlayerClickGuiPage implements Listener {
         //按钮被点击注解操作
         InputStream in = DatabaseYaml.class.getClassLoader().getResourceAsStream("easyLibrary.yml");
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
+        assert in != null;
         InputStreamReader inputStreamReader = new InputStreamReader(in, StandardCharsets.UTF_8);
         try {
             yamlConfiguration.load(inputStreamReader);
         } catch (IOException | InvalidConfigurationException e) {
             throw new RuntimeException(e);
         }
-        List<Class> classList = null;
+        List<Class> classList;
         try {
             classList = ResourceUtil.getClassesFromJarFile(yamlConfiguration.getStringList("guiButtonHandlerPackage"));
         } catch (URISyntaxException e) {
@@ -125,10 +126,16 @@ public class PlayerClickGuiPage implements Listener {
                     try {
                         m.setAccessible(true);
                         m.invoke(c.newInstance(), event);
+
+                        if (inventoryHolder instanceof GuiPage){
+                            GuiPage guiPage= (GuiPage) inventoryHolder;
+                            guiPage.refresh();
+                        }
+
+
                     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                         e.printStackTrace();
                     }
-
 
 
                 }
@@ -147,6 +154,11 @@ public class PlayerClickGuiPage implements Listener {
                     try {
                         m.setAccessible(true);
                         m.invoke(c.newInstance(), event);
+                        if (inventoryHolder instanceof GuiPage){
+                            GuiPage guiPage= (GuiPage) inventoryHolder;
+                            guiPage.refresh();
+                        }
+
                     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                         e.printStackTrace();
                     }
@@ -156,7 +168,6 @@ public class PlayerClickGuiPage implements Listener {
 
 
         }
-
 
     }
 

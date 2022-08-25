@@ -17,6 +17,7 @@ public abstract class MultipleGuiPageBase implements GuiPage {
     protected int pageIndex;
     protected GuiPage backPage;
     protected OfflinePlayer owner;
+
     public MultipleGuiPageBase(@Nullable String title, @NotNull Player viewer, @Nullable GuiPage backPage, OfflinePlayer owner, InventoryType inventoryType) {
         if (title != null) {
             inventory = Bukkit.createInventory(this, inventoryType, ChatColor.translateAlternateColorCodes('&', title));
@@ -28,7 +29,8 @@ public abstract class MultipleGuiPageBase implements GuiPage {
         this.pageIndex = 0;
         this.backPage = backPage;
     }
-    public MultipleGuiPageBase(@Nullable String title, @NotNull Player viewer, @Nullable GuiPage backPage, OfflinePlayer owner,int size) {
+
+    public MultipleGuiPageBase(@Nullable String title, @NotNull Player viewer, @Nullable GuiPage backPage, OfflinePlayer owner, int size) {
         if (title != null) {
             inventory = Bukkit.createInventory(this, size, ChatColor.translateAlternateColorCodes('&', title));
         } else {
@@ -54,8 +56,10 @@ public abstract class MultipleGuiPageBase implements GuiPage {
         refresh();
     }
 
-    public  abstract  int  getPreviousPageSlot();
-    public  abstract  int  getNextPageSlot();
+    public abstract int getPreviousPageSlot();
+
+    public abstract int getNextPageSlot();
+
     @Override
     public Inventory getInventory() {
         return inventory;

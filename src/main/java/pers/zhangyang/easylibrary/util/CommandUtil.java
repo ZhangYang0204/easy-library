@@ -6,7 +6,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -15,14 +14,14 @@ public class CommandUtil {
      * 使commandSender以某些身份执行代码,cmdList的String格式需要为方式:命令，方式有console、self、operator，不符合的将跳过
      * 命令无需加/，如果是玩家支持Papi变量
      */
-    public static void dispatchCommandList(@NotNull CommandSender commandSender,@NotNull List<String> cmdList){
+    public static void dispatchCommandList(@NotNull CommandSender commandSender, @NotNull List<String> cmdList) {
         for (String s : cmdList) {
-            if (commandSender instanceof Player&&
-                    Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+            if (commandSender instanceof Player &&
+                    Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                 s = PlaceholderAPI.setPlaceholders((Player) commandSender, s);
             }
 
-            s = ChatColor.translateAlternateColorCodes('&',s);
+            s = ChatColor.translateAlternateColorCodes('&', s);
             String[] args = s.split(":");
             if (args.length != 2) {
                 continue;
@@ -38,7 +37,7 @@ public class CommandUtil {
                 continue;
             }
             if ("operator".equalsIgnoreCase(way)) {
-                boolean op=commandSender.isOp();
+                boolean op = commandSender.isOp();
                 commandSender.setOp(true);
                 Bukkit.dispatchCommand(commandSender, command);
                 commandSender.setOp(op);

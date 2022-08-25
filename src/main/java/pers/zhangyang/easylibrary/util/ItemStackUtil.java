@@ -18,7 +18,6 @@ public class ItemStackUtil {
 
 
     /**
-     *
      * @return 玩家头颅物品
      */
     @NotNull
@@ -31,7 +30,7 @@ public class ItemStackUtil {
     }
 
     /**
-     *把itemStack的name  lore  customModelData  移植到target里  把itemStack有的itemFlag直接添加到target里
+     * 把itemStack的name  lore  customModelData  itemFlag移植到target里
      */
     public static void apply(@NotNull ItemStack itemStack, @NotNull ItemStack target) throws NotApplicableException {
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -44,6 +43,7 @@ public class ItemStackUtil {
         }
         targetMeta.setDisplayName(itemMeta.getDisplayName());
         targetMeta.setLore(itemMeta.getLore());
+        targetMeta.getItemFlags().clear();
         for (ItemFlag i : itemMeta.getItemFlags()) {
             targetMeta.addItemFlags(i);
         }
@@ -76,6 +76,7 @@ public class ItemStackUtil {
             itemMeta.setDisplayName(displayName);
         }
         if (flagList != null) {
+
             for (ItemFlag itemFlag : flagList) {
                 itemMeta.addItemFlags(itemFlag);
             }

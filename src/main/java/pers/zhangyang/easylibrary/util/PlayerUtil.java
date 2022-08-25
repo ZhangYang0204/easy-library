@@ -39,6 +39,9 @@ public class PlayerUtil {
     }
 
     public static void addItem(@NotNull Player player, @NotNull ItemStack itemStack, int amount) {
+        if (itemStack.getType().equals(Material.AIR)){
+            return;
+        }
         itemStack = itemStack.clone();
         if (checkSpace(player, itemStack) < amount) {
             throw new IllegalArgumentException();
@@ -55,6 +58,9 @@ public class PlayerUtil {
     }
 
     public static void removeItem(@NotNull Player player, @NotNull ItemStack itemStack, int amount) {
+        if (itemStack.getType().equals(Material.AIR)){
+            return;
+        }
         itemStack = itemStack.clone();
         if (amount < 0) {
             throw new IllegalArgumentException();

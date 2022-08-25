@@ -26,6 +26,4 @@ public interface GuiPage extends InventoryHolder {
     @NotNull
     OfflinePlayer getOwner();
 
-    @NotNull
-    Inventory getInventory();
 }

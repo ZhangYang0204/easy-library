@@ -102,7 +102,8 @@ public abstract class EasyPlugin extends JavaPlugin {
                 Listener listener = (Listener) c.newInstance();
                 Bukkit.getPluginManager().registerEvents(listener, EasyPlugin.instance);
             }
-        } catch (InstantiationException | IllegalAccessException | IOException | InvalidConfigurationException | URISyntaxException e) {
+        } catch (InstantiationException | IllegalAccessException | IOException | InvalidConfigurationException |
+                 URISyntaxException e) {
             throw new RuntimeException(e);
         }
 
@@ -174,7 +175,8 @@ public abstract class EasyPlugin extends JavaPlugin {
                 }
                 executorBase.process();
             }
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | InvalidConfigurationException | URISyntaxException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException |
+                 IOException | InvalidConfigurationException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
 

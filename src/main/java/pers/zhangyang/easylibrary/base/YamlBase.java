@@ -1,15 +1,11 @@
 package pers.zhangyang.easylibrary.base;
 
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Content;
-import net.md_5.bungee.api.chat.hover.content.Text;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -255,12 +251,12 @@ public abstract class YamlBase {
         Double pitch = getDoubleDefault(path + ".pitch");
         String worldName = getStringDefault(path + ".worldName");
         World world = Bukkit.getWorld(worldName);
-        if (world==null){
-            worldName=backUpConfiguration.getString(path + ".worldName");
+        if (world == null) {
+            worldName = backUpConfiguration.getString(path + ".worldName");
             assert worldName != null;
             world = Bukkit.getWorld(worldName);
         }
-        return new Location( world, x, y, z, yaw.floatValue(), pitch.floatValue());
+        return new Location(world, x, y, z, yaw.floatValue(), pitch.floatValue());
     }
 
     @Nullable
@@ -271,11 +267,11 @@ public abstract class YamlBase {
         Double yaw = getDouble(path + ".yaw");
         Double pitch = getDouble(path + ".pitch");
         String worldName = getString(path + ".worldName");
-        if (worldName==null||x == null || y == null || z == null || yaw == null || pitch == null) {
+        if (worldName == null || x == null || y == null || z == null || yaw == null || pitch == null) {
             return null;
         }
         World world = Bukkit.getWorld(worldName);
-        if (world==null){
+        if (world == null) {
             return null;
         }
         return new Location(world, x, y, z, yaw.floatValue(), pitch.floatValue());
@@ -295,15 +291,17 @@ public abstract class YamlBase {
     public ItemStack getItemStack(@NotNull String path) {
         return yamlConfiguration.getItemStack(path);
     }
+
     @NotNull
     public ItemStack getItemStackDefault(@NotNull String path) {
         ItemStack var = yamlConfiguration.getItemStack(path);
-        if (var==null){
-            var=backUpConfiguration.getItemStack(path);
+        if (var == null) {
+            var = backUpConfiguration.getItemStack(path);
         }
         assert var != null;
         return var;
     }
+
     @NotNull
     public Integer getNonnegativeIntegerDefault(@NotNull String path) {
         int var = getIntegerDefault(path);
@@ -419,6 +417,7 @@ public abstract class YamlBase {
             }
         }
     }
+
     @NotNull
     public String getNonemptyStringDefault(@NotNull String path) {
         String display = getStringDefault(path);
@@ -428,10 +427,11 @@ public abstract class YamlBase {
         assert display != null;
         return display;
     }
+
     @Nullable
     public String getNonemptyString(@NotNull String path) {
         String display = getString(path);
-        if (display!=null&&display.isEmpty()) {
+        if (display != null && display.isEmpty()) {
             display = backUpConfiguration.getString(path);
         }
         assert display != null;

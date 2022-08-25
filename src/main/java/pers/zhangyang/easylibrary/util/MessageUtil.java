@@ -15,19 +15,21 @@ import java.util.List;
 
 public class MessageUtil {
     /**
-     *     如果是玩家支持Papi变量
+     * 如果是玩家支持Papi变量
      */
     public static void notPlayer(CommandSender sender) {
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.notPlayer"));
     }
+
     /**
-     *     如果是玩家支持Papi变量
+     * 如果是玩家支持Papi变量
      */
     public static void notItemInMainHand(CommandSender sender) {
         MessageUtil.sendMessageTo(sender, MessageYaml.INSTANCE.getStringList("message.chat.notItemStackInMainHand"));
     }
+
     /**
-     *     如果是玩家支持Papi变量
+     * 如果是玩家支持Papi变量
      */
     public static void invalidArgument(@NotNull CommandSender sender, String arg) {
         List<String> list = MessageYaml.INSTANCE.getStringList("message.chat.invalidArgument");
@@ -36,28 +38,30 @@ public class MessageUtil {
         }
         MessageUtil.sendMessageTo(sender, list);
     }
+
     /**
-     *     如果是玩家支持Papi变量
+     * 如果是玩家支持Papi变量
      */
 
     public static void sendTitleTo(@NotNull Player player, @Nullable String title, @Nullable String subtitle) {
         if (title != null) {
 
-            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                 title = PlaceholderAPI.setPlaceholders(player, title);
             }
             title = ChatColor.translateAlternateColorCodes('&', title);
         }
         if (subtitle != null) {
-            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                 subtitle = PlaceholderAPI.setPlaceholders(player, subtitle);
             }
             subtitle = ChatColor.translateAlternateColorCodes('&', subtitle);
         }
         player.sendTitle(title, subtitle, 10, 10, 20);
     }
+
     /**
-     *     如果是玩家支持Papi变量
+     * 如果是玩家支持Papi变量
      */
     public static void sendMessageTo(@NotNull CommandSender sender, @Nullable List<String> strings) {
 
@@ -67,7 +71,7 @@ public class MessageUtil {
         }
         for (String s : strings) {
             if (sender instanceof Player) {
-                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                     s = PlaceholderAPI.setPlaceholders((Player) sender, s);
 
                 }
@@ -75,8 +79,9 @@ public class MessageUtil {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
         }
     }
+
     /**
-     *     如果是玩家支持Papi变量
+     * 如果是玩家支持Papi变量
      */
     public static void sendMessageTo(@NotNull Collection<? extends CommandSender> senderList, @Nullable List<String> strings) {
         if (strings == null) {
@@ -85,7 +90,7 @@ public class MessageUtil {
         for (CommandSender sender : senderList) {
             for (String s : strings) {
                 if (sender instanceof Player) {
-                    if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+                    if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                         s = PlaceholderAPI.setPlaceholders((Player) sender, s);
                     }
 
@@ -94,8 +99,9 @@ public class MessageUtil {
             }
         }
     }
+
     /**
-     *     如果是玩家支持Papi变量
+     * 如果是玩家支持Papi变量
      */
     public static void sendMessageTo(@NotNull Collection<? extends CommandSender> senderList, @Nullable String s) {
         if (s == null) {
@@ -103,22 +109,23 @@ public class MessageUtil {
         }
         for (CommandSender sender : senderList) {
             if (sender instanceof Player) {
-                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                     s = PlaceholderAPI.setPlaceholders((Player) sender, s);
                 }
             }
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
         }
     }
+
     /**
-     *     如果是玩家支持Papi变量
+     * 如果是玩家支持Papi变量
      */
     public static void sendMessageTo(@NotNull CommandSender sender, @Nullable String s) {
         if (s == null) {
             return;
         }
         if (sender instanceof Player) {
-            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                 s = PlaceholderAPI.setPlaceholders((Player) sender, s);
             }
         }
