@@ -1,6 +1,7 @@
 package pers.zhangyang.easylibrary;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -131,10 +132,17 @@ public abstract class EasyPlugin extends JavaPlugin {
     //自动调度全部命令
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length == 0) {
+        if (!command.getName().equalsIgnoreCase(EasyPlugin.instance.getName())){
             return true;
         }
 
+        for (int i=0;i<args.length;i++){
+            args[i]= ChatColor.translateAlternateColorCodes('&',args[i]);
+        }
+
+        if (args.length == 0) {
+            return true;
+        }
 
         String[] argument = new String[args.length - 1];
         System.arraycopy(args, 1, argument, 0, args.length - 1);

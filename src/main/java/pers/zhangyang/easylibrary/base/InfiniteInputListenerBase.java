@@ -1,6 +1,7 @@
 package pers.zhangyang.easylibrary.base;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,7 +47,7 @@ public abstract class InfiniteInputListenerBase implements Listener {
             return;
         }
         if (!event.getMessage().equalsIgnoreCase(MessageYaml.INSTANCE.getNonemptyStringDefault("message.input.submit"))) {
-            messageList.add(event.getMessage());
+            messageList.add(ChatColor.translateAlternateColorCodes('&',event.getMessage()));
             return;
         }
 
